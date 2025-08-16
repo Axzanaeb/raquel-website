@@ -1,37 +1,28 @@
 {
-  "title": "Studio — Art & Ink",
-  "tagline": "Tattoos • Barro • Paintings",
-  "description": "Portfolio and lessons by the artist.",
-  "social": {
-    "instagram": "https://instagram.com/yourhandle",
-    "email": "mailto:hello@example.com"
-  },
-  "location": "Amarante, Portugal",
-  "hero_heading": "Art & Ink",
-  "hero_subheading": "Tattoos · Barro · Paintings",
-  "hero_intro": "Welcome to the studio. View recent works and book a spot in weekly group lessons.",
   "hero_primary_cta_label": "Explore Gallery",
-  "hero_primary_cta_url": "/gallery",
-  "hero_secondary_cta_label": "Join a Lesson",
-  "hero_secondary_cta_url": "/lessons",
-  "hero_images": [
-    {
-      "image": "/images/samples/sample-1.jpg",
-      "alt": "Tattoo detail"
-    },
-    {
-      "image": "/images/samples/sample-2.jpg",
-      "alt": "Clay vessel in progress"
-    },
-    {
-      "image": "/images/samples/sample-3.jpg",
-      "alt": "Watercolor painting"
-    }
-  ],
-  "latest_artworks_heading": "Latest artworks",
   "analytics": {
     "provider": "",
     "script_src": "",
     "data_domain": ""
-  }
+  },
+  "hero_subheading": "Tattoos · Barro · Paintings",
+  "hero_intro": "Welcome to the studio. View recent works and book a spot in weekly group lessons.",
+  "social": {
+    "instagram": "https://instagram.com/yourhandle",
+    "email": "mailto:hello@example.com"
+  },
+  "tagline": "Tattoos • Barro • Paintings",
+  "hero_secondary_cta_url": "/lessons",
+  "og_image": "/images/uploads/screenshot_20250816_154501.png",
+  "hero_secondary_cta_label": "Join a Lesson",
+  "location": "Amarante, Portugal",
+  "title": "Studio — Art & Ink",
+  "latest_artworks_heading": "Latest artworks",
+  "description": "Portfolio and lessons by the artist.",
+  "hero_images": [
+    "/images/uploads/screenshot_20250816_154501.png",
+    "/images/uploads/screenshot_20250816_154427.png"
+  ],
+  "hero_heading": "Art & Ink",
+  "hero_primary_cta_url": "/gallery"
 }
