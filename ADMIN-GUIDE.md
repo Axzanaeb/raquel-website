@@ -41,6 +41,7 @@ Configure provider/script in Site Settings (e.g. Plausible). CSP already allows 
 
 ## Logging
 Function attempts stored in `function_logs` when `ENABLE_FUNCTION_LOGS` and service key present. View via `/admin-function-logs` (filter & CSV) or Supabase SQL.
+Static assets & images now served with long-term immutable caching headers.
 
 ## Security (RLS)
 Anon key for public inserts; admin endpoints use service key + role check. Counts now via `lesson_registrations_counts` view. Public lessons metadata via `lessons_public` view.
