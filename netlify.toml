@@ -27,6 +27,11 @@
   to = "/.netlify/functions/export-registrations"
   status = 200
 
+[[redirects]]
+  from = "/api/admin/function-logs"
+  to = "/.netlify/functions/admin-function-logs"
+  status = 200
+
 # Enable clean URLs
 [[redirects]]
   from = "/admin"

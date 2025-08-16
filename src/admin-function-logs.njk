@@ -1,0 +1,75 @@
+---
+layout: base
+title: Function Logs
+---
+<section class="container py-12">
+  <h1 class="text-2xl font-bold mb-6">Function Logs</h1>
+  <div class="mb-4 flex flex-wrap gap-4 items-end">
+    <label class="text-sm">Function
+      <input id="fnFilter" placeholder="register-lesson" class="border rounded px-2 py-1 text-sm" />
+    </label>
+    <label class="text-sm">Limit
+      <input id="limitInput" type="number" value="200" min="1" max="1000" class="border rounded px-2 py-1 text-sm w-24" />
+    </label>
+    <button id="reloadBtn" class="btn">Reload</button>
+    <button id="exportBtn" class="btn">Export CSV</button>
+  </div>
+  <div class="overflow-auto border rounded">
+    <table class="min-w-full text-sm">
+      <thead class="bg-gray-100 dark:bg-gray-800">
+        <tr>
+          <th class="text-left px-3 py-2">ID</th>
+          <th class="text-left px-3 py-2">Time</th>
+          <th class="text-left px-3 py-2">Function</th>
+          <th class="text-left px-3 py-2">Slug</th>
+          <th class="text-left px-3 py-2">IP</th>
+          <th class="text-left px-3 py-2">OK</th>
+        </tr>
+      </thead>
+      <tbody id="logBody"></tbody>
+    </table>
+  </div>
+  <p id="statusMsg" class="text-xs mt-3 text-gray-500"></p>
+</section>
+<script type="module">
+async function load(){
+  const fn = document.getElementById('fnFilter').value.trim();
+  const limit = document.getElementById('limitInput').value || '200';
+  const qs = new URLSearchParams(); if(fn) qs.set('fn', fn); qs.set('limit', limit);
+  const res = await fetch('/api/admin/function-logs?'+qs.toString(), { headers: await authHeaders() });
+  const body = document.getElementById('logBody');
+  body.innerHTML='';
+  if(!res.ok){ body.innerHTML = `<tr><td colspan=6 class='px-3 py-2 text-red-600'>${res.status} ${res.statusText}</td></tr>`; return; }
+  const data = await res.json();
+  data.forEach(r => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td class='px-3 py-1'>${r.id}</td><td class='px-3 py-1 whitespace-nowrap'>${new Date(r.created_at).toLocaleString()}</td><td class='px-3 py-1'>${r.fn}</td><td class='px-3 py-1'>${r.slug || ''}</td><td class='px-3 py-1 opacity-60'>${r.ip || ''}</td><td class='px-3 py-1'>${r.ok ? '✔️' : '❌'}</td>`;
+    body.appendChild(tr);
+  });
+  document.getElementById('statusMsg').textContent = `${data.length} rows`;
+}
+
+async function authHeaders(){
+  if(!window.netlifyIdentity){ return {}; }
+  const user = window.netlifyIdentity.currentUser();
+  if(!user) return {};
+  const token = await user.jwt();
+  return { Authorization: `Bearer ${token}` };
+}
+
+document.getElementById('reloadBtn').addEventListener('click', load);
+
+document.getElementById('exportBtn').addEventListener('click', async () => {
+  const rows = Array.from(document.querySelectorAll('#logBody tr')).map(tr => Array.from(tr.children).map(td => '"'+td.textContent.replace(/"/g,'')+'"').join(','));
+  const csv = ['id,time,function,slug,ip,ok', ...rows].join('\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = 'function-logs.csv'; a.click();
+});
+
+if(window.netlifyIdentity){
+  window.netlifyIdentity.on('init', load);
+  window.netlifyIdentity.on('login', load);
+}
+load();
+</script>
