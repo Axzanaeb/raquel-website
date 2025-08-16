@@ -38,7 +38,7 @@ module.exports = function(eleventyConfig) {
     }
   });
 
-  // Image shortcode (updated path resolution + graceful fallback)
+  // Image shortcode (updated path resolution + graceful fallback + placeholder)
   eleventyConfig.addNunjucksAsyncShortcode('optImg', async function(src, alt = '', widths = [400, 800], formats = ['webp','jpeg']){
     try {
       if(!src) return '';
@@ -51,17 +51,27 @@ module.exports = function(eleventyConfig) {
         // Fallback: output plain img tag (maybe remote URL or missing during draft)
         return `<img src="${src}" alt="${alt}">`;
       }
+      // Ensure a tiny width for placeholder (add 24 if not present)
+      const uniqueWidths = Array.from(new Set([24, ...widths])).sort((a,b)=>a-b);
       const metadata = await Image(original, {
-        widths,
+        widths: uniqueWidths,
         formats,
         urlPath: '/images/optimized/',
         outputDir: 'dist/images/optimized/'
       });
-      const firstFormat = metadata[Object.keys(metadata)[0]][0];
+      const firstFormatKey = Object.keys(metadata)[0];
+      const smallest = metadata[firstFormatKey][0]; // should be width 24
+      let placeholderDataUri = '';
+      try {
+        const buf = fs.readFileSync(smallest.outputPath);
+        placeholderDataUri = `data:${smallest.sourceType};base64,${buf.toString('base64')}`;
+      } catch {}
       const sources = Object.values(metadata).map(imageFormat => {
         return `<source type="${imageFormat[0].sourceType}" srcset="${imageFormat.map(entry => entry.srcset).join(', ')}">`;
       }).join('\n');
-      return `<picture>${sources}<img src="${firstFormat.url}" width="${firstFormat.width}" height="${firstFormat.height}" alt="${alt}" loading="lazy" decoding="async"></picture>`;
+      const largest = metadata[firstFormatKey][metadata[firstFormatKey].length -1];
+      const styleBg = placeholderDataUri ? `background:#111 center/cover no-repeat url('${placeholderDataUri}');` : 'background:#111';
+      return `<picture class="blur-wrapper" style="${styleBg}">${sources}<img src="${largest.url}" width="${largest.width}" height="${largest.height}" alt="${alt}" loading="lazy" decoding="async" class="blur-up" onload="this.classList.add('loaded')"></picture>`;
     } catch(e) {
       console.warn('optImg error for', src, e.message);
       return `<img src="${src}" alt="${alt}">`;

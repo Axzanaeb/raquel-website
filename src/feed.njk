@@ -1,0 +1,24 @@
+---
+permalink: feed.xml
+eleventyExcludeFromCollections: true
+layout: null
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>{{ site.title | xml }}</title>
+    <link>{{ site.url }}</link>
+    <description>{{ site.description | xml }}</description>
+    <language>en</language>
+    {% set items = (collections.artworks | slice(0,15)) + (collections.lessons | slice(0,15)) %}
+    {% for item in items %}
+    <item>
+      <title>{{ item.data.title | xml }}</title>
+      <link>{{ site.url }}{{ item.url }}</link>
+      <guid>{{ site.url }}{{ item.url }}</guid>
+      <pubDate>{{ item.date | date("EEE, dd LLL yyyy HH:mm:ss 'GMT'") }}</pubDate>
+      {% if item.templateContent %}<description><![CDATA[{{ item.templateContent | safe }}]]></description>{% endif %}
+    </item>
+    {% endfor %}
+  </channel>
+</rss>

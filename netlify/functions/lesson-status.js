@@ -12,18 +12,20 @@ export default async function handler(event, context) {
     const capacity = parseInt(event.queryStringParameters?.capacity || '0', 10);
     if(!slug) return { statusCode: 400, body: JSON.stringify({ error: 'Missing slug' }) };
 
-    // Only need count; RLS policy should allow select count on lesson_registrations
-    const { count, error } = await client
-      .from('lesson_registrations')
-      .select('*', { count: 'exact', head: true })
-      .eq('lesson_slug', slug);
+    // Query the counts view (granted to anon) instead of base table
+    const { data, error } = await client
+      .from('lesson_registrations_counts')
+      .select('registrations')
+      .eq('lesson_slug', slug)
+      .maybeSingle();
 
     if(error) throw error;
+    const registered = data?.registrations || 0;
 
     return {
       statusCode: 200,
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ slug, capacity, registered: count || 0, remaining: Math.max(capacity - (count || 0), 0) })
+      body: JSON.stringify({ slug, capacity, registered, remaining: Math.max(capacity - registered, 0) })
     };
   } catch(err) {
     return { statusCode: 500, body: JSON.stringify({ error: err.message }) };
