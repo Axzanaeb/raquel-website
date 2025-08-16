@@ -41,12 +41,27 @@ collections:
         name: "about"
         fields:
           - { label: "Title", name: "title", widget: "string" }
-          - { label: "Body", name: "body", widget: "markdown" }
+          - { label: "Intro", name: "intro", widget: "markdown", required: false }
+          - { label: "Journey", name: "journey", widget: "markdown", required: false }
+          - label: Offerings
+            name: offerings
+            widget: list
+            summary: "{{fields.label}}"
+            field: { label: Item, name: label, widget: string }
+            required: false
+          - { label: "Philosophy", name: "philosophy", widget: "markdown", required: false }
+          - { label: "Location Note", name: "location_note", widget: "string", required: false }
       - file: "src/contact.njk"
         label: "Contact"
         name: "contact"
         fields:
           - { label: "Title", name: "title", widget: "string" }
+      - file: "src/404.njk"
+        label: "Not Found Page"
+        name: "notfound"
+        fields:
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Body (HTML / Nunjucks allowed)", name: "body", widget: "markdown", required: false }
 
   - name: "settings"
     label: "Site Settings"

@@ -12,24 +12,92 @@ title: Gallery
   </div>
   <div id="grid" class="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
     {% for post in collections.artworks %}
-    <figure class="card" data-cat="{{ post.data.category }}">
+    <figure class="card cursor-pointer group hidden" data-cat="{{ post.data.category }}" data-full="{{ post.data.image }}" data-title="{{ post.data.title }}" tabindex="0" role="button" aria-label="Open {{ post.data.title }} image">
       {% if post.data.image %}
         {% optImg post.data.image, post.data.title %}
       {% endif %}
       <figcaption class="p-4">
         <span class="badge">{{ post.data.category }}</span>
-        <h3 class="mt-2 font-semibold">{{ post.data.title }}</h3>
+        <h3 class="mt-2 font-semibold group-hover:underline">{{ post.data.title }}</h3>
       </figcaption>
     </figure>
     {% endfor %}
   </div>
+  <div class="mt-10 text-center">
+    <button id="loadMore" class="btn" type="button">Load More</button>
+  </div>
 </section>
 <script>
-function filterCat(cat){
-  const items = document.querySelectorAll('#grid [data-cat]');
-  items.forEach(el => {
-    const show = (cat==='all') || (el.dataset.cat === cat);
-    el.style.display = show ? '' : 'none';
+const PAGE_SIZE = 9;
+let currentShown = 0;
+let activeCategory = 'all';
+const gridItems = Array.from(document.querySelectorAll('#grid figure'));
+const loadBtn = document.getElementById('loadMore');
+
+function applyCategory(){
+  gridItems.forEach(el => {
+    const match = (activeCategory==='all') || (el.dataset.cat === activeCategory);
+    el.dataset.match = match ? '1' : '0';
   });
 }
+function renderBatch(reset=false){
+  if(reset){
+    currentShown = 0;
+    gridItems.forEach(el => { el.classList.add('hidden'); });
+  }
+  const matching = gridItems.filter(el => el.dataset.match==='1');
+  const nextSlice = matching.slice(currentShown, currentShown + PAGE_SIZE);
+  nextSlice.forEach(el => el.classList.remove('hidden'));
+  currentShown += nextSlice.length;
+  loadBtn.style.display = currentShown < matching.length ? '' : 'none';
+}
+function filterCat(cat){
+  activeCategory = cat;
+  applyCategory();
+  renderBatch(true);
+}
+// Initial
+applyCategory();
+renderBatch(true);
+
+// Lightbox (unchanged logic aside from hidden class handling)
+(function(){
+  const figures = document.querySelectorAll('#grid figure');
+  if(!figures.length) return;
+  const overlay = document.createElement('div');
+  overlay.className = 'fixed inset-0 bg-black/80 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity z-50';
+  overlay.innerHTML = `\n    <div class=\"relative max-w-3xl w-full\">\n      <button type=\"button\" aria-label=\"Close\" class=\"absolute -top-10 right-0 text-white text-2xl font-bold\" id=\"lbClose\">×</button>\n      <img id=\"lbImg\" src=\"\" alt=\"\" class=\"max-h-[70vh] w-auto mx-auto rounded shadow-lg\"/>\n      <p id=\"lbCaption\" class=\"text-center text-white mt-4 text-sm\"></p>\n    </div>`;
+  document.body.appendChild(overlay);
+  const imgEl = overlay.querySelector('#lbImg');
+  const capEl = overlay.querySelector('#lbCaption');
+  const closeBtn = overlay.querySelector('#lbClose');
+  let lastFocus = null;
+  function open(fig){
+    lastFocus = document.activeElement;
+    imgEl.src = fig.dataset.full;
+    imgEl.alt = fig.dataset.title || '';
+    capEl.textContent = fig.dataset.title || '';
+    overlay.style.pointerEvents = 'auto';
+    overlay.classList.remove('opacity-0');
+    overlay.classList.add('opacity-100');
+    closeBtn.focus();
+    document.addEventListener('keydown', escHandler);
+  }
+  function close(){
+    overlay.classList.add('opacity-0');
+    overlay.classList.remove('opacity-100');
+    overlay.style.pointerEvents = 'none';
+    document.removeEventListener('keydown', escHandler);
+    if(lastFocus) lastFocus.focus();
+  }
+  function escHandler(e){ if(e.key === 'Escape') close(); }
+  figures.forEach(f => {
+    f.addEventListener('click', () => open(f));
+    f.addEventListener('keydown', (e) => { if(e.key==='Enter' || e.key===' ') { e.preventDefault(); open(f);} });
+  });
+  closeBtn.addEventListener('click', close);
+  overlay.addEventListener('click', (e) => { if(e.target === overlay) close(); });
+})();
+
+loadBtn.addEventListener('click', () => renderBatch());
 </script>
