@@ -1,0 +1,29 @@
+{
+  "name": "artist-site",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently -k \"npm:dev:*\"",
+    "dev:eleventy": "eleventy --serve --input=src --output=dist",
+    "dev:css": "postcss src/styles/tailwind.css -o dist/assets/styles.css -w",
+    "build": "eleventy --input=src --output=dist && postcss src/styles/tailwind.css -o dist/assets/styles.css",
+    "build:prod": "NODE_ENV=production eleventy --input=src --output=dist && postcss src/styles/tailwind.css -o dist/assets/styles.css && node scripts/minify-html.js",
+    "preview": "npx http-server dist -p 4321",
+    "validate": "node -e \"require('dotenv').config(); const { createClient } = require('@supabase/supabase-js'); const supabaseUrl = process.env.SUPABASE_URL; const supabaseKey = process.env.SUPABASE_ANON_KEY; const supabase = createClient(supabaseUrl, supabaseKey); console.log('Supabase client created successfully');\""
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^3.0.0",
+    "autoprefixer": "^10.4.20",
+    "concurrently": "^9.0.1",
+    "cssnano": "^6.1.2",
+    "html-minifier": "^4.0.0",
+    "postcss": "^8.4.45",
+    "postcss-cli": "^11.0.1",
+    "tailwindcss": "^3.4.10"
+  },
+  "dependencies": {
+    "@11ty/eleventy-img": "^6.0.4",
+    "@supabase/supabase-js": "^2.43.5",
+    "luxon": "^3.7.1"
+  }
+}

@@ -1,0 +1,46 @@
+[build]
+  command = "npm run build:prod"
+  publish = "dist"
+
+# API redirects
+[[redirects]]
+  from = "/api/lesson-status"
+  to = "/.netlify/functions/lesson-status"
+  status = 200
+
+[[redirects]]
+  from = "/api/register-lesson"
+  to = "/.netlify/functions/register-lesson"
+  status = 200
+
+[[redirects]]
+  from = "/api/admin/registrations"
+  to = "/.netlify/functions/admin-registrations"
+  status = 200
+
+[[redirects]]
+  from = "/api/admin/export-registrations"
+  to = "/.netlify/functions/export-registrations"
+  status = 200
+
+# Enable clean URLs
+[[redirects]]
+  from = "/admin"
+  to = "/admin/"
+  status = 200
+
+# Security headers (adjust CSP domains as needed)
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=()"
+    Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://identity.netlify.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://*.supabase.co;"
+[dev]
+  command = "npm run dev"
+  targetPort = 8080
+  port = 8888
+  publish = "dist"

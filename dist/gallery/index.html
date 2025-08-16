@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gallery — Tattoos • Barro • Paintings</title>
+  <meta name="description" content="Portfolio and lessons by the artist.">
+  <meta property="og:title" content="Gallery">
+  <meta property="og:description" content="Portfolio and lessons by the artist.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="/gallery/">
+  <meta property="og:image" content="/images/samples/sample-1.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link href="/assets/styles.css" rel="stylesheet">
+</head>
+<body class="font-body text-gray-900">
+  <header class="border-b border-black/10">
+    <nav class="container flex items-center justify-between h-16">
+      <a href="/" class="font-extrabold tracking-tight text-lg">Studio — Art &amp; Ink</a>
+      <ul class="flex items-center gap-6">
+        <li><a href="/gallery" class="hover:underline">Gallery</a></li>
+        <li><a href="/lessons" class="hover:underline">Lessons</a></li>
+        <li><a href="/about" class="hover:underline">About</a></li>
+        <li><a href="/contact" class="hover:underline">Contact</a></li>
+        <li><a href="/admin/" class="hover:underline">CMS</a></li>
+        <li><a href="/admin/registrations" class="hover:underline text-xs opacity-70">Reg*</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="min-h-[70vh]">
+    <section class="container py-12">
+  <h1 class="text-3xl font-bold mb-8">Gallery</h1>
+  <div class="flex gap-3 mb-6">
+    <a href="#" class="btn" onclick="filterCat('all'); return false;">All</a>
+    <a href="#" class="btn" onclick="filterCat('tattoo'); return false;">Tattoos</a>
+    <a href="#" class="btn" onclick="filterCat('barro'); return false;">Barro</a>
+    <a href="#" class="btn" onclick="filterCat('painting'); return false;">Paintings</a>
+  </div>
+  <div id="grid" class="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
+    
+    <figure class="card" data-cat="barro">
+      
+        <picture><source type="image/webp" srcset="/images/optimized/wNkhO5unAp-400.webp 400w, /images/optimized/wNkhO5unAp-800.webp 800w">
+<source type="image/jpeg" srcset="/images/optimized/wNkhO5unAp-400.jpeg 400w, /images/optimized/wNkhO5unAp-800.jpeg 800w"><img src="/images/optimized/wNkhO5unAp-400.webp" width="400" height="300" alt="Abstract Clay Vessel" loading="lazy" decoding="async"></picture>
+      
+      <figcaption class="p-4">
+        <span class="badge">barro</span>
+        <h3 class="mt-2 font-semibold">Abstract Clay Vessel</h3>
+      </figcaption>
+    </figure>
+    
+    <figure class="card" data-cat="painting">
+      
+        <picture><source type="image/webp" srcset="/images/optimized/cLu-wCtWNS-400.webp 400w, /images/optimized/cLu-wCtWNS-800.webp 800w">
+<source type="image/jpeg" srcset="/images/optimized/cLu-wCtWNS-400.jpeg 400w, /images/optimized/cLu-wCtWNS-800.jpeg 800w"><img src="/images/optimized/cLu-wCtWNS-400.webp" width="400" height="300" alt="Sunset Over Douro" loading="lazy" decoding="async"></picture>
+      
+      <figcaption class="p-4">
+        <span class="badge">painting</span>
+        <h3 class="mt-2 font-semibold">Sunset Over Douro</h3>
+      </figcaption>
+    </figure>
+    
+    <figure class="card" data-cat="tattoo">
+      
+        <picture><source type="image/webp" srcset="/images/optimized/M2584pD4At-400.webp 400w, /images/optimized/M2584pD4At-800.webp 800w">
+<source type="image/jpeg" srcset="/images/optimized/M2584pD4At-400.jpeg 400w, /images/optimized/M2584pD4At-800.jpeg 800w"><img src="/images/optimized/M2584pD4At-400.webp" width="400" height="300" alt="Dragon Sleeve Tattoo" loading="lazy" decoding="async"></picture>
+      
+      <figcaption class="p-4">
+        <span class="badge">tattoo</span>
+        <h3 class="mt-2 font-semibold">Dragon Sleeve Tattoo</h3>
+      </figcaption>
+    </figure>
+    
+  </div>
+</section>
+<script>
+function filterCat(cat){
+  const items = document.querySelectorAll('#grid [data-cat]');
+  items.forEach(el => {
+    const show = (cat==='all') || (el.dataset.cat === cat);
+    el.style.display = show ? '' : 'none';
+  });
+}
+</script>
+  </main>
+
+  <footer class="border-t border-black/10 py-10 mt-16">
+    <div class="container flex flex-col md:flex-row items-center justify-between gap-6">
+      <p class="text-sm">© Invalid DateTime — Studio — Art &amp; Ink · Amarante, Portugal</p>
+      <div class="flex items-center gap-4">
+        <a href="https://instagram.com/yourhandle" target="_blank" class="btn">Instagram</a>
+        <a href="mailto:hello@example.com" class="btn">Email</a>
+        <a href="/admin/" class="btn">Admin</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

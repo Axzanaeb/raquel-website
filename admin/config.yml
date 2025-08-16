@@ -1,0 +1,69 @@
+backend:
+  name: git-gateway # or "github" / "gitlab" / "bitbucket"
+  branch: main
+
+media_folder: "src/images/uploads"
+public_folder: "/images/uploads"
+
+site_url: "/"
+logo_url: "/images/samples/sample-1.jpg"
+
+collections:
+  - name: "artworks"
+    label: "Artworks"
+    folder: "src/artworks"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Category", name: "category", widget: "select", options: ["tattoo", "barro", "painting"] }
+      - { label: "Image", name: "image", widget: "image" }
+      - { label: "Date", name: "date", widget: "datetime" }
+      - { label: "Body", name: "body", widget: "markdown", required: false }
+
+  - name: "lessons"
+    label: "Lessons"
+    folder: "src/lessons"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Date & time", name: "date", widget: "datetime" }
+      - { label: "Location", name: "location", widget: "string" }
+      - { label: "Capacity", name: "capacity", widget: "number", value_type: "int" }
+      - { label: "Description", name: "description", widget: "text", required: false }
+
+  - name: "pages"
+    label: "Pages"
+    files:
+      - file: "src/about.md"
+        label: "About"
+        name: "about"
+        fields:
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Body", name: "body", widget: "markdown" }
+      - file: "src/contact.njk"
+        label: "Contact"
+        name: "contact"
+        fields:
+          - { label: "Title", name: "title", widget: "string" }
+
+  - name: "settings"
+    label: "Site Settings"
+    files:
+      - file: "src/_data/site.json"
+        label: "General"
+        name: "site"
+        fields:
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Tagline", name: "tagline", widget: "string" }
+          - { label: "Description", name: "description", widget: "text" }
+          - label: Social
+            name: social
+            widget: object
+            fields:
+              - { label: Instagram, name: instagram, widget: string }
+              - { label: Email, name: email, widget: string }
+          - { label: Location, name: location, widget: string }
+          - { label: "Site URL", name: "url", widget: "string", required: false }
+          - { label: "OG Image", name: "og_image", widget: "image", required: false }

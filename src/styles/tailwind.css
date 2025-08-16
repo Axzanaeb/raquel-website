@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Components */
+.container { @apply max-w-6xl mx-auto px-4; }
+.btn { @apply inline-flex items-center gap-2 rounded-xl px-4 py-2 font-medium shadow-sm border border-black/10 hover:shadow transition; }
+.card { @apply rounded-2xl overflow-hidden border border-black/10 shadow-sm; }
+.badge { @apply inline-block rounded-full px-3 py-1 text-sm bg-black text-white; }

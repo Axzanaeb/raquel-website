@@ -1,0 +1,35 @@
+---
+layout: base
+title: Gallery
+---
+<section class="container py-12">
+  <h1 class="text-3xl font-bold mb-8">Gallery</h1>
+  <div class="flex gap-3 mb-6">
+    <a href="#" class="btn" onclick="filterCat('all'); return false;">All</a>
+    <a href="#" class="btn" onclick="filterCat('tattoo'); return false;">Tattoos</a>
+    <a href="#" class="btn" onclick="filterCat('barro'); return false;">Barro</a>
+    <a href="#" class="btn" onclick="filterCat('painting'); return false;">Paintings</a>
+  </div>
+  <div id="grid" class="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
+    {% for post in collections.artworks %}
+    <figure class="card" data-cat="{{ post.data.category }}">
+      {% if post.data.image %}
+        {% optImg post.data.image, post.data.title %}
+      {% endif %}
+      <figcaption class="p-4">
+        <span class="badge">{{ post.data.category }}</span>
+        <h3 class="mt-2 font-semibold">{{ post.data.title }}</h3>
+      </figcaption>
+    </figure>
+    {% endfor %}
+  </div>
+</section>
+<script>
+function filterCat(cat){
+  const items = document.querySelectorAll('#grid [data-cat]');
+  items.forEach(el => {
+    const show = (cat==='all') || (el.dataset.cat === cat);
+    el.style.display = show ? '' : 'none';
+  });
+}
+</script>

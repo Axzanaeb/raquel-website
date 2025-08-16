@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ title or site.title }} — {{ site.tagline }}</title>
+  <meta name="description" content="{{ site.description }}">
+  <meta property="og:title" content="{{ title or site.title }}">
+  <meta property="og:description" content="{{ site.description }}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ site.url or '' }}{{ page.url }}">
+  <meta property="og:image" content="{{ site.og_image or '/images/samples/sample-1.jpg' }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link href="/assets/styles.css" rel="stylesheet">
+</head>
+<body class="font-body text-gray-900">
+  <header class="border-b border-black/10">
+    <nav class="container flex items-center justify-between h-16">
+      <a href="/" class="font-extrabold tracking-tight text-lg">{{ site.title }}</a>
+      <ul class="flex items-center gap-6">
+        <li><a href="/gallery" class="hover:underline">Gallery</a></li>
+        <li><a href="/lessons" class="hover:underline">Lessons</a></li>
+        <li><a href="/about" class="hover:underline">About</a></li>
+        <li><a href="/contact" class="hover:underline">Contact</a></li>
+        <li><a href="/admin/" class="hover:underline">CMS</a></li>
+        <li><a href="/admin/registrations" class="hover:underline text-xs opacity-70">Reg*</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="min-h-[70vh]">
+    {{ content | safe }}
+  </main>
+
+  <footer class="border-t border-black/10 py-10 mt-16">
+    <div class="container flex flex-col md:flex-row items-center justify-between gap-6">
+      <p class="text-sm">© {{ ("now" | date | readableDate) or "2025" }} — {{ site.title }} · {{ site.location }}</p>
+      <div class="flex items-center gap-4">
+        <a href="{{ site.social.instagram }}" target="_blank" class="btn">Instagram</a>
+        <a href="{{ site.social.email }}" class="btn">Email</a>
+        <a href="/admin/" class="btn">Admin</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
