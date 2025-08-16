@@ -9,24 +9,18 @@ const client = createClient(supabaseUrl, anonKey, { auth: { autoRefreshToken: fa
 export default async function handler(event, context) {
   try {
     const slug = event.queryStringParameters?.slug;
-    const capacity = parseInt(event.queryStringParameters?.capacity || '0', 10);
-    if(!slug) return { statusCode: 400, body: JSON.stringify({ error: 'Missing slug' }) };
+  const capacityParam = event.queryStringParameters?.capacity;
+  const capacity = capacityParam ? parseInt(capacityParam, 10) : null;
+  if(!slug) return { statusCode: 400, body: JSON.stringify({ error: 'Missing slug' }) };
 
     // Query the counts view (granted to anon) instead of base table
-    const { data, error } = await client
-      .from('lesson_registrations_counts')
-      .select('registrations')
-      .eq('lesson_slug', slug)
-      .maybeSingle();
+  const { data, error } = await client.from('lesson_registrations_counts').select('registrations').eq('lesson_slug', slug).maybeSingle();
 
     if(error) throw error;
     const registered = data?.registrations || 0;
 
-    return {
-      statusCode: 200,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ slug, capacity, registered, remaining: Math.max(capacity - registered, 0) })
-    };
+  const remaining = (typeof capacity === 'number') ? Math.max(capacity - registered, 0) : null;
+  return { statusCode: 200, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug, capacity, registered, remaining }) };
   } catch(err) {
     return { statusCode: 500, body: JSON.stringify({ error: err.message }) };
   }
