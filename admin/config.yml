@@ -94,9 +94,11 @@ collections:
           - label: "Hero Images"
             name: hero_images
             widget: list
-            summary: "Image: {{fields.image}}"
+            summary: "Hero: {{fields.alt | default(fields.image)}}"
             required: false
-            field: { label: Image, name: image, widget: image }
+            fields:
+              - { label: Image, name: image, widget: image }
+              - { label: Alt Text, name: alt, widget: string, required: false }
           - { label: "Latest Artworks Heading", name: "latest_artworks_heading", widget: "string", required: false }
           - label: Analytics (Optional)
             name: analytics

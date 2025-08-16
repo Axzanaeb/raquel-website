@@ -16,13 +16,16 @@
   "hero_secondary_cta_url": "/lessons",
   "hero_images": [
     {
-      "image": "/images/samples/sample-1.jpg"
+      "image": "/images/samples/sample-1.jpg",
+      "alt": "Tattoo detail"
     },
     {
-      "image": "/images/samples/sample-2.jpg"
+      "image": "/images/samples/sample-2.jpg",
+      "alt": "Clay vessel in progress"
     },
     {
-      "image": "/images/samples/sample-3.jpg"
+      "image": "/images/samples/sample-3.jpg",
+      "alt": "Watercolor painting"
     }
   ],
   "latest_artworks_heading": "Latest artworks",

@@ -20,7 +20,7 @@ title: Home
     </div>
     <div class="grid grid-cols-3 gap-3">
       {% for img in site.hero_images %}
-        <img class="card" src="{{ img.image }}" alt="Hero image {{ loop.index }}"/>
+        <img class="card" src="{{ img.image }}" alt="{{ img.alt or ('Hero image ' + loop.index) }}"/>
       {% endfor %}
     </div>
   </div>
