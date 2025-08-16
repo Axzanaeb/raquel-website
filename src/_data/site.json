@@ -20,8 +20,14 @@
   "latest_artworks_heading": "Latest artworks",
   "description": "Portfolio and lessons by the artist.",
   "hero_images": [
-    "/images/uploads/screenshot_20250816_154501.png",
-    "/images/uploads/screenshot_20250816_154427.png"
+    {
+      "image": "/images/uploads/screenshot_20250816_154501.png",
+      "alt": "Hero image 1"
+    },
+    {
+      "image": "/images/uploads/screenshot_20250816_154427.png",
+      "alt": "Hero image 2"
+    }
   ],
   "hero_heading": "Art & Ink",
   "hero_primary_cta_url": "/gallery"

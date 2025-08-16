@@ -19,8 +19,12 @@ title: Home
       </div>
     </div>
     <div class="grid grid-cols-3 gap-3">
+      {# hero_images entries may be objects {image, alt} or legacy strings; handle both #}
       {% for img in site.hero_images %}
-        <img class="card" src="{{ img.image }}" alt="{{ img.alt or ('Hero image ' + loop.index) }}"/>
+        {% set src = img.image or img %}
+        {% if src %}
+          <img class="card aspect-square object-cover" src="{{ src }}" alt="{{ (img.alt or ('Hero image ' + loop.index)) | escape }}" loading="{{ 'eager' if loop.first else 'lazy' }}" />
+        {% endif %}
       {% endfor %}
     </div>
   </div>
