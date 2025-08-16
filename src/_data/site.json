@@ -25,5 +25,10 @@
       "image": "/images/samples/sample-3.jpg"
     }
   ],
-  "latest_artworks_heading": "Latest artworks"
+  "latest_artworks_heading": "Latest artworks",
+  "analytics": {
+    "provider": "",
+    "script_src": "",
+    "data_domain": ""
+  }
 }

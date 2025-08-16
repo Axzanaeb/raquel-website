@@ -97,3 +97,11 @@ collections:
             required: false
             field: { label: Image, name: image, widget: image }
           - { label: "Latest Artworks Heading", name: "latest_artworks_heading", widget: "string", required: false }
+          - label: Analytics (Optional)
+            name: analytics
+            widget: object
+            required: false
+            fields:
+              - { label: Provider (e.g. plausible), name: provider, widget: string, required: false }
+              - { label: Script Src URL, name: script_src, widget: string, required: false }
+              - { label: Data Domain (for Plausible), name: data_domain, widget: string, required: false }

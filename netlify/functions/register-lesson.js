@@ -28,6 +28,14 @@ async function logAttempt({ slug, ip, ok }){
   console.log(JSON.stringify({ t: Date.now(), slug, ip, ok }));
 }
 
+async function insertLog(row){
+  if(!process.env.SUPABASE_SERVICE_KEY || !process.env.ENABLE_FUNCTION_LOGS) return;
+  try {
+    const svc = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_KEY, { auth:{autoRefreshToken:false, persistSession:false} });
+    await svc.from('function_logs').insert(row);
+  } catch(e){ /* swallow */ }
+}
+
 // Optional email (Resend) env vars
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const RESEND_FROM = process.env.RESEND_FROM || 'no-reply@example.com';
@@ -61,6 +69,16 @@ async function sendEmails({ name, email, slug }) {
   } catch(e){
     console.warn('Email send failed', e.message);
   }
+}
+
+function sha256Hex(str){
+  if(typeof crypto !== 'undefined' && crypto.subtle){
+    // runtime async hashing (Netlify supports Web Crypto)
+    return crypto.subtle.digest('SHA-256', new TextEncoder().encode(str.toLowerCase()))
+      .then(buf => Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join(''));
+  }
+  // Fallback simple hash (not cryptographic) if subtle missing
+  let h=0; for(let i=0;i<str.length;i++){h=(Math.imul(31,h)+str.charCodeAt(i))|0;} return Promise.resolve('fh_'+(h>>>0).toString(16));
 }
 
 export default async function handler(event, context) {
@@ -111,12 +129,21 @@ export default async function handler(event, context) {
       return { statusCode: 409, body: JSON.stringify({ error: 'Lesson full' }) };
     }
 
+    const emailHash = await sha256Hex(email);
     const { error: insertError } = await client
       .from('lesson_registrations')
-      .insert({ lesson_slug: slug, name, email });
+      .insert({ lesson_slug: slug, name, email, email_hash: emailHash });
 
-    if(insertError) throw insertError;
+    if(insertError){
+      if(insertError.code === '23505'){ // unique_violation
+        await logAttempt({ slug, ip, ok:false });
+        await insertLog({ fn:'register-lesson', slug, ip, ok:false });
+        return { statusCode: 409, body: JSON.stringify({ error: 'Already registered' }) };
+      }
+      throw insertError;
+    }
 
+    await insertLog({ fn:'register-lesson', slug, ip, ok:true });
     // Fire and forget emails
     sendEmails({ name, email, slug });
 

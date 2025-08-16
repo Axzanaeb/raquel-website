@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="h-full" x-data>
+<html lang="en" class="h-full">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -38,6 +38,15 @@
     }{% if not loop.last %},{% endif %}{% endfor %}
     ]
   }</script>
+  {% endif %}
+  {% if site.analytics and site.analytics.script_src %}
+  <script
+    {% if site.analytics.provider == 'plausible' %}defer data-domain="{{ site.analytics.data_domain }}"{% else %}defer{% endif %}
+    src="{{ site.analytics.script_src }}">
+  </script>
+  {% endif %}
+  {% if site.hero_images and site.hero_images.length %}
+  <link rel="preload" as="image" href="{{ site.hero_images[0].image }}"/>
   {% endif %}
 </head>
 <body class="font-body text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-900"> 

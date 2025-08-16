@@ -9,7 +9,7 @@
     "build": "eleventy --input=src --output=dist && postcss src/styles/tailwind.css -o dist/assets/styles.css",
     "build:prod": "NODE_ENV=production eleventy --input=src --output=dist && postcss src/styles/tailwind.css -o dist/assets/styles.css && node scripts/minify-html.js",
     "preview": "npx http-server dist -p 4321",
-    "validate": "node -e \"require('dotenv').config(); const { createClient } = require('@supabase/supabase-js'); const supabaseUrl = process.env.SUPABASE_URL; const supabaseKey = process.env.SUPABASE_ANON_KEY; const supabase = createClient(supabaseUrl, supabaseKey); console.log('Supabase client created successfully');\""
+    "validate": "node scripts/validate.js"
   },
   "devDependencies": {
     "@11ty/eleventy": "^3.0.0",

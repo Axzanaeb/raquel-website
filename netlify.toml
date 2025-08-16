@@ -2,6 +2,10 @@
   command = "npm run build:prod"
   publish = "dist"
 
+[build.environment]
+  # Set PLAUSIBLE or other analytics host if needed (comma separated allowed sources)
+  ANALYTICS_SRC = "plausible.io"
+
 # API redirects
 [[redirects]]
   from = "/api/lesson-status"
@@ -38,14 +42,14 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "geolocation=()"
     Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://identity.netlify.com https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://*.supabase.co;"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://identity.netlify.com https://unpkg.com https://plausible.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://*.supabase.co https://plausible.io;"
 
 # Relaxed CSP only for admin (Decap CMS requires eval)
 [[headers]]
   for = "/admin/*"
   [headers.values]
     # Added blob: (and data: for completeness) to connect-src so CMS can fetch blob URLs for media drafts
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://identity.netlify.com https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' blob: data: https://*.supabase.co https://identity.netlify.com;"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://identity.netlify.com https://unpkg.com https://plausible.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' blob: data: https://*.supabase.co https://identity.netlify.com https://plausible.io;"
 
 [dev]
   command = "npm run dev"

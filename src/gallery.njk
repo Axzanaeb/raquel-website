@@ -65,6 +65,8 @@ renderBatch(true);
   const figures = document.querySelectorAll('#grid figure');
   if(!figures.length) return;
   const overlay = document.createElement('div');
+  overlay.setAttribute('role','dialog');
+  overlay.setAttribute('aria-modal','true');
   overlay.className = 'fixed inset-0 bg-black/80 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity z-50';
   overlay.innerHTML = `\n    <div class=\"relative max-w-3xl w-full\">\n      <button type=\"button\" aria-label=\"Close\" class=\"absolute -top-10 right-0 text-white text-2xl font-bold\" id=\"lbClose\">×</button>\n      <img id=\"lbImg\" src=\"\" alt=\"\" class=\"max-h-[70vh] w-auto mx-auto rounded shadow-lg\"/>\n      <p id=\"lbCaption\" class=\"text-center text-white mt-4 text-sm\"></p>\n    </div>`;
   document.body.appendChild(overlay);
@@ -72,6 +74,11 @@ renderBatch(true);
   const capEl = overlay.querySelector('#lbCaption');
   const closeBtn = overlay.querySelector('#lbClose');
   let lastFocus = null;
+  function trap(e){
+    if(e.key !== 'Tab') return;
+    e.preventDefault();
+    closeBtn.focus();
+  }
   function open(fig){
     lastFocus = document.activeElement;
     imgEl.src = fig.dataset.full;
@@ -82,12 +89,14 @@ renderBatch(true);
     overlay.classList.add('opacity-100');
     closeBtn.focus();
     document.addEventListener('keydown', escHandler);
+    document.addEventListener('keydown', trap);
   }
   function close(){
     overlay.classList.add('opacity-0');
     overlay.classList.remove('opacity-100');
     overlay.style.pointerEvents = 'none';
     document.removeEventListener('keydown', escHandler);
+    document.removeEventListener('keydown', trap);
     if(lastFocus) lastFocus.focus();
   }
   function escHandler(e){ if(e.key === 'Escape') close(); }
