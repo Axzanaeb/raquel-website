@@ -5,25 +5,29 @@ title: Home
 <section class="container py-16 md:py-24">
   <div class="grid md:grid-cols-2 gap-12 items-center">
     <div>
-      <h1 class="font-display text-4xl md:text-6xl font-extrabold leading-tight">Art & Ink
-        <span class="block text-xl md:text-2xl font-semibold mt-3">Tattoos · Barro · Paintings</span>
+      <h1 class="font-display text-4xl md:text-6xl font-extrabold leading-tight">{{ site.hero_heading or site.title }}
+        {% if site.hero_subheading %}<span class="block text-xl md:text-2xl font-semibold mt-3">{{ site.hero_subheading }}</span>{% endif %}
       </h1>
-      <p class="mt-6 text-lg">Welcome to the studio. View recent works and book a spot in weekly group lessons.</p>
-      <div class="mt-8 flex gap-3">
-        <a class="btn" href="/gallery">Explore Gallery</a>
-        <a class="btn" href="/lessons">Join a Lesson</a>
+      {% if site.hero_intro %}<p class="mt-6 text-lg">{{ site.hero_intro }}</p>{% endif %}
+      <div class="mt-8 flex gap-3 flex-wrap">
+        {% if site.hero_primary_cta_label and site.hero_primary_cta_url %}
+          <a class="btn" href="{{ site.hero_primary_cta_url }}">{{ site.hero_primary_cta_label }}</a>
+        {% endif %}
+        {% if site.hero_secondary_cta_label and site.hero_secondary_cta_url %}
+          <a class="btn" href="{{ site.hero_secondary_cta_url }}">{{ site.hero_secondary_cta_label }}</a>
+        {% endif %}
       </div>
     </div>
     <div class="grid grid-cols-3 gap-3">
-      <img class="card" src="/images/samples/sample-1.jpg" alt="Sample"/>
-      <img class="card" src="/images/samples/sample-2.jpg" alt="Sample"/>
-      <img class="card" src="/images/samples/sample-3.jpg" alt="Sample"/>
+      {% for img in site.hero_images %}
+        <img class="card" src="{{ img.image }}" alt="Hero image {{ loop.index }}"/>
+      {% endfor %}
     </div>
   </div>
 </section>
 
 <section class="container py-12">
-  <h2 class="text-2xl font-bold mb-6">Latest artworks</h2>
+  <h2 class="text-2xl font-bold mb-6">{{ site.latest_artworks_heading or 'Latest artworks' }}</h2>
   <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
     {% for post in collections.artworks | slice(0,6) %}
       <article class="card">

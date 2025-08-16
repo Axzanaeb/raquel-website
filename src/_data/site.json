@@ -6,5 +6,24 @@
     "instagram": "https://instagram.com/yourhandle",
     "email": "mailto:hello@example.com"
   },
-  "location": "Amarante, Portugal"
+  "location": "Amarante, Portugal",
+  "hero_heading": "Art & Ink",
+  "hero_subheading": "Tattoos · Barro · Paintings",
+  "hero_intro": "Welcome to the studio. View recent works and book a spot in weekly group lessons.",
+  "hero_primary_cta_label": "Explore Gallery",
+  "hero_primary_cta_url": "/gallery",
+  "hero_secondary_cta_label": "Join a Lesson",
+  "hero_secondary_cta_url": "/lessons",
+  "hero_images": [
+    {
+      "image": "/images/samples/sample-1.jpg"
+    },
+    {
+      "image": "/images/samples/sample-2.jpg"
+    },
+    {
+      "image": "/images/samples/sample-3.jpg"
+    }
+  ],
+  "latest_artworks_heading": "Latest artworks"
 }

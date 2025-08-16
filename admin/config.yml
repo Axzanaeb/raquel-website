@@ -67,3 +67,18 @@ collections:
           - { label: Location, name: location, widget: string }
           - { label: "Site URL", name: "url", widget: "string", required: false }
           - { label: "OG Image", name: "og_image", widget: "image", required: false }
+          # Home hero editable fields
+          - { label: "Hero Heading", name: "hero_heading", widget: "string", required: false }
+          - { label: "Hero Subheading", name: "hero_subheading", widget: "string", required: false }
+          - { label: "Hero Intro Text", name: "hero_intro", widget: "text", required: false }
+          - { label: "Primary CTA Label", name: "hero_primary_cta_label", widget: "string", required: false }
+          - { label: "Primary CTA URL", name: "hero_primary_cta_url", widget: "string", required: false }
+          - { label: "Secondary CTA Label", name: "hero_secondary_cta_label", widget: "string", required: false }
+          - { label: "Secondary CTA URL", name: "hero_secondary_cta_url", widget: "string", required: false }
+          - label: "Hero Images"
+            name: hero_images
+            widget: list
+            summary: "Image: {{fields.image}}"
+            required: false
+            field: { label: Image, name: image, widget: image }
+          - { label: "Latest Artworks Heading", name: "latest_artworks_heading", widget: "string", required: false }

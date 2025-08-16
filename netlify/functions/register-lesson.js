@@ -1,9 +1,9 @@
 import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = process.env.SUPABASE_URL;
-const serviceKey = process.env.SUPABASE_SERVICE_KEY; // secure (server only)
-
-const client = createClient(supabaseUrl, serviceKey, { auth: { autoRefreshToken: false, persistSession: false } });
+// Use anon key; RLS policy must allow insert on lesson_registrations. Service key not needed for public.
+const anonKey = process.env.SUPABASE_ANON_KEY || process.env.SUPABASE_SERVICE_KEY;
+const client = createClient(supabaseUrl, anonKey, { auth: { autoRefreshToken: false, persistSession: false } });
 
 // In-memory rate limiter (ephemeral per function container)
 const attempts = new Map();
@@ -42,7 +42,7 @@ export default async function handler(event, context) {
       return { statusCode: 429, body: JSON.stringify({ error: 'Too many attempts, try later' }) };
     }
 
-    // Check current count
+    // Check current count (RLS should allow counting registrations per slug)
     const { count, error: countError } = await client
       .from('lesson_registrations')
       .select('*', { count: 'exact', head: true })

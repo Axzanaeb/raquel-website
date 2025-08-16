@@ -14,7 +14,7 @@
 ## Lesson Registrations
 - Go to `/admin/registrations/` while logged in.
 - Use filter box to narrow by lesson slug (filename without extension).
-- Export: Copy table into a spreadsheet manually (future automation optional).
+- Export: Copy table into a spreadsheet manually (future automation optional) or use the CSV export endpoint.
 
 ## Image Guidelines
 - Upload JPG or PNG. Recommended widths: 1600px max. System auto-generates optimized formats.
@@ -30,20 +30,15 @@
 - Title, Tagline, Description appear in metadata.
 - `Site URL` should be full (https://example.com) for sitemap & social cards.
 
-## Troubleshooting
-| Issue | Action |
-|-------|--------|
-| Registration form says Full unexpectedly | Check capacity value in lesson file. Increase if needed. |
-| Admin Registrations shows Unauthorized | Ensure your Identity user has `admin` role. Re-login. |
-| Images not showing | Re-upload, ensure path begins with `/images/uploads/` after save. |
-| Social share wrong image | Set OG Image in Settings and redeploy. |
+## Cleanup Performed
+- Sample functions now use the Supabase anon key (RLS enforced) for public endpoints.
+- Retain only real content; remove placeholder markdown via the CMS when no longer needed.
 
 ## Security (Row Level Security)
-Row Level Security (RLS) is enforced so public endpoints can only insert new registrations and read counts (not personal data). Admin endpoints bypass via service key.
-
+Public endpoints use the anon key so RLS policies apply. Admin endpoints still use service key and verify `admin` role.
 If adding a new public table, ensure you:
 1. Enable RLS: `alter table <table> enable row level security;`
-2. Add necessary policies.
+2. Add policies permitting required actions.
 
 ## Do Not
 - Expose Supabase service key publicly.
