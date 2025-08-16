@@ -40,13 +40,13 @@ JSON-LD (Organization & Events) + RSS `/feed.xml`.
 Configure provider/script in Site Settings (e.g. Plausible). CSP already allows plausible.io.
 
 ## Logging
-Function attempts stored in `function_logs` when `ENABLE_FUNCTION_LOGS` and service key present. View via Supabase SQL (future UI possible).
+Function attempts stored in `function_logs` when `ENABLE_FUNCTION_LOGS` and service key present. View via `/admin-function-logs` (filter & CSV) or Supabase SQL.
 
 ## Security (RLS)
 Anon key for public inserts; admin endpoints use service key + role check. Counts now via `lesson_registrations_counts` view. Public lessons metadata via `lessons_public` view.
 
 ## Accessibility
-Lightbox: ESC to close, focus trapped. Continue auditing color contrast for future improvements.
+Lightbox: ESC to close, focus trapped. Alt text now configurable per artwork (provide meaningful description). Continue auditing color contrast for future improvements.
 
 ## Backups
 Schedule Supabase backups (dashboard) and optionally export `lesson_registrations` monthly.

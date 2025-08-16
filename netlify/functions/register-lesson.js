@@ -62,8 +62,7 @@ async function sendEmails({ name, email, slug }) {
     // User email
     await fetch('https://api.resend.com/emails', { method: 'POST', headers, body: JSON.stringify({ from: RESEND_FROM, to: email, subject: userSubject, html: userHtml }) });
     // Admin email (to site email or explicit override)
-    const adminTo = ADMIN_NOTIFY || email /* fallback disabled below */;
-    if(ADMIN_NOTIFY) {
+  if(ADMIN_NOTIFY) {
       await fetch('https://api.resend.com/emails', { method: 'POST', headers, body: JSON.stringify({ from: RESEND_FROM, to: ADMIN_NOTIFY, subject: adminSubject, html: adminHtml }) });
     }
   } catch(e){

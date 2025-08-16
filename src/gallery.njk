@@ -12,9 +12,9 @@ title: Gallery
   </div>
   <div id="grid" class="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
     {% for post in collections.artworks %}
-    <figure class="card cursor-pointer group hidden" data-cat="{{ post.data.category }}" data-full="{{ post.data.image }}" data-title="{{ post.data.title }}" tabindex="0" role="button" aria-label="Open {{ post.data.title }} image">
+  <figure class="card cursor-pointer group hidden" data-cat="{{ post.data.category }}" data-full="{{ post.data.image }}" data-title="{{ post.data.alt or post.data.title }}" tabindex="0" role="button" aria-label="Open {{ post.data.alt or post.data.title }} image">
       {% if post.data.image %}
-        {% optImg post.data.image, post.data.title %}
+    {% optImg post.data.image, post.data.alt or post.data.title %}
       {% endif %}
       <figcaption class="p-4">
         <span class="badge">{{ post.data.category }}</span>
