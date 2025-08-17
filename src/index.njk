@@ -18,15 +18,21 @@ title: Home
         {% endif %}
       </div>
     </div>
-    <div class="grid grid-cols-3 gap-3">
-      {# hero_images entries may be objects {image, alt} or legacy strings; handle both #}
-      {% for img in site.hero_images %}
-        {% set src = img.image or img %}
-        {% if src %}
-          <img class="card aspect-square object-cover" src="{{ src }}" alt="{{ (img.alt or ('Hero image ' + loop.index)) | escape }}" loading="{{ 'eager' if loop.first else 'lazy' }}" />
-        {% endif %}
-      {% endfor %}
-    </div>
+    {% set heroes = site.hero_images or [] %}
+    <!-- DEBUG HERO COUNT: {{ heroes | length }} -->
+    <!-- DEBUG HERO LIST: {% for h in heroes %}{{ h.image or h }} {% endfor %} -->
+    {% if heroes.length %}
+      <div class="grid gap-3" style="grid-template-columns: repeat({{ heroes | length }}, minmax(0,1fr));">
+        {% for img in heroes %}
+          {% set src = img.image or img %}
+          {% if src %}
+            <figure class="card overflow-hidden">
+              <img class="aspect-square object-cover w-full h-full" src="{{ src }}" alt="{{ (img.alt or ('Hero image ' + loop.index)) | escape }}" loading="{{ 'eager' if loop.first else 'lazy' }}" decoding="async" />
+            </figure>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
   </div>
 </section>
 
