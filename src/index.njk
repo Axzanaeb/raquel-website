@@ -12,7 +12,8 @@ title: Home
     {% if latest and latest.length %}
       {% for post in latest %}
       <article class="card overflow-hidden">
-        <a href="{{ post.url }}" class="block group">
+        {# Link to gallery with hash for potential future deep-link (#slug) instead of unused detail page #}
+        <a href="/gallery#{{ post.data.slug }}" class="block group">
           {% if post.data.image %}
             <img src="{{ post.data.image }}" alt="{{ post.data.alt or post.data.title }}" class="w-full h-full object-cover" loading="lazy" decoding="async" />
           {% endif %}

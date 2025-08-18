@@ -47,4 +47,12 @@
 
   apply();
   render(true);
+
+  // Deep link: if URL hash matches a figure id, open it after initial render
+  const params = new URLSearchParams(location.search);
+  const directId = params.get('slug') || (location.hash ? location.hash.slice(1) : '');
+  if(directId){
+    const fig = items.find(i=>i.id===directId);
+    if(fig) setTimeout(()=>fig.click(), 30);
+  }
 })();

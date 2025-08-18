@@ -32,6 +32,12 @@
   to = "/.netlify/functions/admin-function-logs"
   status = 200
 
+# Redirect old artwork detail pages to gallery deep link
+[[redirects]]
+  from = "/artworks/:slug/"
+  to = "/gallery?slug=:slug"
+  status = 301
+
 # Enable clean URLs
 [[redirects]]
   from = "/admin"

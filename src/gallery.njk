@@ -17,7 +17,7 @@ title: Gallery
   </div>
   <div id="grid" class="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
     {% for post in collections.artworks %}
-    <figure class="card cursor-pointer group" data-cat="{{ post.data.category }}" data-full="{{ post.data.image }}" data-title="{{ post.data.alt or post.data.title }}" tabindex="0" role="button" aria-label="Open {{ post.data.alt or post.data.title }} image">
+  <figure id="{{ post.fileSlug }}" class="card cursor-pointer group" data-cat="{{ post.data.category }}" data-full="{{ post.data.image }}" data-title="{{ post.data.alt or post.data.title }}" tabindex="0" role="button" aria-label="Open {{ post.data.alt or post.data.title }} image">
       {% if post.data.image %}
         <img src="{{ post.data.image }}" alt="{{ post.data.alt or post.data.title }}" class="w-full h-full object-cover" loading="lazy" decoding="async" />
       {% endif %}

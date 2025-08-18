@@ -29,6 +29,7 @@ module.exports = () => {
     const raw = fs.readFileSync(path.join(dir, f), 'utf8');
     const { data } = parseFrontMatter(raw);
     const date = new Date(data.date || 0).getTime();
+  const slug = f.replace(/\.md$/, '');
     return {
       url: `/artworks/${f.replace(/\.md$/, '')}/`,
       data: {
@@ -36,7 +37,8 @@ module.exports = () => {
         category: data.category || 'art',
         image: data.image || '',
         alt: data.alt || data.title || f,
-        date
+    date,
+    slug
       }
     };
   });
