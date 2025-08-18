@@ -8,6 +8,7 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy({ "src/images": "images" });
   eleventyConfig.addPassthroughCopy({ "admin": "admin" });
   // JS assets (gallery, theme-related scripts, admin dashboards, etc.)
+  // Passthrough JS assets
   eleventyConfig.addPassthroughCopy({ "src/assets/js": "assets/js" });
 
   // Collections
