@@ -27,7 +27,7 @@ title: Home
           {% set src = img.image or img %}
           {% if src %}
             <figure class="card overflow-hidden">
-              {% if src startswith '/images/uploads/' %}
+              {% if src | startsWith('/images/uploads/') %}
                 {% raw %}{% endraw %}{% set alt = img.alt or ('Hero image ' + loop.index) %}{% raw %}{% endraw %}
                 {% optImg src alt %}
               {% else %}

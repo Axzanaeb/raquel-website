@@ -24,6 +24,9 @@ module.exports = function(eleventyConfig) {
   // Filters
   eleventyConfig.addFilter("readableDate", (dateObj) => {
     try {
+
+  // String utility filters
+  eleventyConfig.addFilter('startsWith', (value, prefix) => typeof value === 'string' && value.startsWith(prefix));
       return DateTime.fromJSDate(new Date(dateObj)).toFormat("dd LLL yyyy, HH:mm");
     } catch {
       return dateObj;
