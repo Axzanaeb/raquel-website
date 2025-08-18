@@ -73,7 +73,7 @@
 
   <footer class="border-t border-black/10 py-10 mt-16">
     <div class="container flex flex-col md:flex-row items-center justify-between gap-6">
-      <p class="text-sm">© {{ ("now" | date | readableDate) or "2025" }} — {{ site.title }} · {{ site.location }}</p>
+  <p class="text-sm">© {{ currentYear }} — {{ site.title }} · {{ site.location }}</p>
       <div class="flex items-center gap-4">
         <a href="{{ site.social.instagram }}" target="_blank" class="btn">Instagram</a>
         <a href="{{ site.social.email }}" class="btn">Email</a>
