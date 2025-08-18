@@ -15,18 +15,19 @@
         {% endif %}
       </div>
     </div>
-  {% set heroes = site.hero_images or [] %}
-    {% if heroes.length %}
+    {% set heroes = site.hero_images or [] %}
+    {% if heroes and heroes | length %}
       <div class="grid gap-3" style="grid-template-columns: repeat({{ heroes | length }}, minmax(0,1fr));">
         {% for img in heroes %}
           {% set src = img.image or img %}
           {% if src %}
             <figure class="card overflow-hidden">
-              {% if src and src.startsWith('/images/uploads/') %}
-                {% set alt = img.alt or ('Hero image ' + loop.index) %}
-                {% optImg src, alt %}
+              {% set altText = img.alt or ('Hero image ' + loop.index) %}
+              {# Use optImg if path is absolute (starts with /) assuming local asset; else plain img #}
+              {% if src and src[0] == '/' %}
+                {% optImg src, altText %}
               {% else %}
-                <img class="aspect-square object-cover w-full h-full" src="{{ src }}" alt="{{ (img.alt or ('Hero image ' + loop.index)) | escape }}" loading="{{ 'eager' if loop.first else 'lazy' }}" decoding="async" />
+                <img class="aspect-square object-cover w-full h-full" src="{{ src }}" alt="{{ altText | escape }}" loading="{{ 'eager' if loop.first else 'lazy' }}" decoding="async" />
               {% endif %}
             </figure>
           {% endif %}
