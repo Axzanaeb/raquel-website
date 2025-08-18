@@ -10,6 +10,8 @@ module.exports = function(eleventyConfig) {
   // JS assets (gallery, theme-related scripts, admin dashboards, etc.)
   // Passthrough JS assets
   eleventyConfig.addPassthroughCopy({ "src/assets/js": "assets/js" });
+  // Redundant: copy entire assets folder (ensures js not skipped if future subfolders added)
+  eleventyConfig.addPassthroughCopy({ "src/assets": "assets" });
 
   // Collections
   eleventyConfig.addCollection("artworks", (collection) => {
