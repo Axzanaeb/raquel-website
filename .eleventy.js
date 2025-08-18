@@ -38,6 +38,17 @@ module.exports = function(eleventyConfig) {
     }
   });
 
+  // Minimal XML escape filter (used in feed.njk)
+  eleventyConfig.addFilter("xml", (value) => {
+    if(value === undefined || value === null) return '';
+    return String(value)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&apos;');
+  });
+
   // Image shortcode (updated path resolution + graceful fallback + placeholder)
   eleventyConfig.addNunjucksAsyncShortcode('optImg', async function(src, alt = '', widths = [400, 800], formats = ['webp','jpeg']){
     try {
