@@ -24,6 +24,20 @@ if(!fs.existsSync(dist)) {
 const htmlFiles = walk(dist);
 const internalLinks = [];
 
+// Critical JS assets that pages rely on (avoid production 404 regressions)
+const requiredJs = [
+  'assets/js/gallery.js',
+  'assets/js/lessons.js',
+  'assets/js/blur-up.js'
+];
+requiredJs.forEach(f => {
+  const p = path.join(dist, f);
+  if(!fs.existsSync(p)) {
+    console.error('Missing required asset:', f);
+    hadError = true;
+  }
+});
+
 htmlFiles.forEach(file => {
   const rel = file.replace(dist,'');
   const html = fs.readFileSync(file, 'utf8');
