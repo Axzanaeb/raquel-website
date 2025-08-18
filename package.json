@@ -6,8 +6,8 @@
     "dev": "concurrently -k \"npm:dev:*\"",
     "dev:eleventy": "eleventy --serve --input=src --output=dist",
     "dev:css": "postcss src/styles/tailwind.css -o dist/assets/styles.css -w",
-    "build": "eleventy --input=src --output=dist && postcss src/styles/tailwind.css -o dist/assets/styles.css",
-    "build:prod": "NODE_ENV=production eleventy --input=src --output=dist && postcss src/styles/tailwind.css -o dist/assets/styles.css && node scripts/minify-html.js",
+    "build": "rm -rf dist && eleventy --input=src --output=dist && postcss src/styles/tailwind.css -o dist/assets/styles.css",
+    "build:prod": "rm -rf dist && NODE_ENV=production eleventy --input=src --output=dist && postcss src/styles/tailwind.css -o dist/assets/styles.css && node scripts/minify-html.js",
     "preview": "npx http-server dist -p 4321",
     "validate": "node scripts/validate.js"
   },
