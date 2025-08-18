@@ -47,7 +47,8 @@
     src="{{ site.analytics.script_src }}">
   </script>
   {% endif %}
-  {% if site.hero_images and site.hero_images.length %}
+  {# Preload first hero image only if defined and under uploads path #}
+  {% if site.hero_images and site.hero_images.length and site.hero_images[0].image and site.hero_images[0].image.startsWith('/images/uploads/') %}
   <link rel="preload" as="image" href="{{ site.hero_images[0].image }}"/>
   {% endif %}
 </head>

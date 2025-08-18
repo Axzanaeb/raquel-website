@@ -15,7 +15,7 @@
         {% endif %}
       </div>
     </div>
-    {% set heroes = site.hero_images or [] %}
+  {% set heroes = site.hero_images or [] %}
     {% if heroes.length %}
       <div class="grid gap-3" style="grid-template-columns: repeat({{ heroes | length }}, minmax(0,1fr));">
         {% for img in heroes %}
