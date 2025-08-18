@@ -28,7 +28,8 @@ const internalLinks = [];
 const requiredJs = [
   'assets/js/gallery.js',
   'assets/js/lessons.js',
-  'assets/js/blur-up.js'
+  'assets/js/admin-function-logs.js',
+  'assets/js/admin-registrations.js'
 ];
 requiredJs.forEach(f => {
   const p = path.join(dist, f);
