@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="h-full">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,13 +9,37 @@
   <meta property="og:description" content="Portfolio and lessons by the artist.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="/contact/">
-  <meta property="og:image" content="/images/samples/sample-1.jpg">
+  
+  
+  <meta property="og:image" content="/images/uploads/screenshot_20250816_154501.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <link href="/assets/styles.css" rel="stylesheet">
+  
+  <script type="application/ld+json">{
+    "@context":"https://schema.org",
+    "@type":"Organization",
+    "name":"Studio — Art &amp; Ink",
+    "url":"",
+  "logo":"/images/uploads/screenshot_20250816_154501.png",
+    "sameAs":["https://instagram.com/yourhandle"]
+  }</script>
+  
+  <script type="application/ld+json">{
+    "@context":"https://schema.org",
+    "@graph":[
+    
+    ]
+  }</script>
+  
+  
+  
+  <link rel="preload" as="image" href="/images/uploads/screenshot_20250816_154501.png"/>
+  
 </head>
-<body class="font-body text-gray-900">
+<body class="font-body text-gray-900 bg-white"> 
+  <a href="#main" class="skip-link absolute top-[-40px] left-2 bg-black text-white px-3 py-2 focus:top-2 focus:outline-none">Skip to content</a>
   <header class="border-b border-black/10">
     <nav class="container flex items-center justify-between h-16">
       <a href="/" class="font-extrabold tracking-tight text-lg">Studio — Art &amp; Ink</a>
@@ -25,16 +49,18 @@
         <li><a href="/about" class="hover:underline">About</a></li>
         <li><a href="/contact" class="hover:underline">Contact</a></li>
         <li><a href="/admin/" class="hover:underline">CMS</a></li>
-        <li><a href="/admin/registrations" class="hover:underline text-xs opacity-70">Reg*</a></li>
+  <li><a href="/admin/registrations" class="hover:underline text-xs opacity-70">Reg*</a></li>
+  <li><a href="/admin-function-logs" class="hover:underline text-xs opacity-70">Logs*</a></li>
+  
       </ul>
     </nav>
   </header>
 
-  <main class="min-h-[70vh]">
+  <main id="main" class="min-h-[70vh]">
     <section class="container py-12">
   <h1 class="text-3xl font-bold mb-8">Contact</h1>
-  <p class="mb-6">For commissions, bookings, and questions, email <a class="underline" href="mailto:hello@example.com">hello@example.com</a>.</p>
-  <p>Studio: Amarante, Portugal</p>
+  <p class="mb-6">For commissions, bookings, and questions, reach out via email. <a class="underline" href="mailto:hello@example.com">hello@example.com</a>.</p>
+  <p>Amarante, Portugal</p>
 </section>
   </main>
 
@@ -48,5 +74,6 @@
       </div>
     </div>
   </footer>
+  <script src="/assets/js/blur-up.js" defer></script>
 </body>
 </html>

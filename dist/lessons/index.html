@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="h-full">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,13 +9,37 @@
   <meta property="og:description" content="Portfolio and lessons by the artist.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="/lessons/">
-  <meta property="og:image" content="/images/samples/sample-1.jpg">
+  
+  
+  <meta property="og:image" content="/images/uploads/screenshot_20250816_154501.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <link href="/assets/styles.css" rel="stylesheet">
+  
+  <script type="application/ld+json">{
+    "@context":"https://schema.org",
+    "@type":"Organization",
+    "name":"Studio — Art &amp; Ink",
+    "url":"",
+  "logo":"/images/uploads/screenshot_20250816_154501.png",
+    "sameAs":["https://instagram.com/yourhandle"]
+  }</script>
+  
+  <script type="application/ld+json">{
+    "@context":"https://schema.org",
+    "@graph":[
+    
+    ]
+  }</script>
+  
+  
+  
+  <link rel="preload" as="image" href="/images/uploads/screenshot_20250816_154501.png"/>
+  
 </head>
-<body class="font-body text-gray-900">
+<body class="font-body text-gray-900 bg-white"> 
+  <a href="#main" class="skip-link absolute top-[-40px] left-2 bg-black text-white px-3 py-2 focus:top-2 focus:outline-none">Skip to content</a>
   <header class="border-b border-black/10">
     <nav class="container flex items-center justify-between h-16">
       <a href="/" class="font-extrabold tracking-tight text-lg">Studio — Art &amp; Ink</a>
@@ -25,12 +49,14 @@
         <li><a href="/about" class="hover:underline">About</a></li>
         <li><a href="/contact" class="hover:underline">Contact</a></li>
         <li><a href="/admin/" class="hover:underline">CMS</a></li>
-        <li><a href="/admin/registrations" class="hover:underline text-xs opacity-70">Reg*</a></li>
+  <li><a href="/admin/registrations" class="hover:underline text-xs opacity-70">Reg*</a></li>
+  <li><a href="/admin-function-logs" class="hover:underline text-xs opacity-70">Logs*</a></li>
+  
       </ul>
     </nav>
   </header>
 
-  <main class="min-h-[70vh]">
+  <main id="main" class="min-h-[70vh]">
     <section class="container py-12">
   <h1 class="text-3xl font-bold mb-8">Group Lessons</h1>
   <div class="grid md:grid-cols-3 gap-8">
@@ -80,43 +106,25 @@
       </ul>
     </div>
     <aside class="space-y-4">
+      
       <div class="card p-5">
-        <h2 class="font-semibold mb-2">How it works</h2>
+        <h2 class="font-semibold mb-2">Group Lessons</h2>
         <ol class="list-decimal list-inside text-sm space-y-1">
-          <li>Find a lesson and register.</li>
-          <li>If seats remain, you get a pending spot.</li>
-          <li>Admin confirms by email (manual for now).</li>
+          <li>Find a lesson and register.</li><li>If seats remain, you get a pending spot.</li><li>Admin confirms by email (manual for now).</li>
         </ol>
       </div>
+      
+      
       <div class="card p-5 text-sm">
         <h2 class="font-semibold mb-2">Need help?</h2>
         <p>Contact us via Instagram or email.</p>
       </div>
+      
     </aside>
   </div>
 </section>
-<script type="module">
-import { initLessonForms } from '/assets/js/lessons.js';
-window.addEventListener('DOMContentLoaded', () => {
-  initLessonForms();
-  // Map badges
-  document.querySelectorAll('[data-lesson-form]').forEach(form => {
-    const slug = form.dataset.slug;
-    const cap = parseInt(form.dataset.capacity || '0', 10);
-    // Mirror internal status counters to list badges
-    const statusSpan = form.querySelector('[data-status]');
-    const remainingSpan = form.querySelector('[data-remaining]');
-    const externalStatus = document.querySelector(`[data-status-badge="${slug}"]`);
-    const externalRemaining = document.querySelector(`[data-remaining-badge="${slug}"]`);
-    const observer = new MutationObserver(() => {
-      if(externalStatus) externalStatus.textContent = statusSpan.textContent;
-      if(externalRemaining) externalRemaining.textContent = remainingSpan.textContent;
-    });
-    observer.observe(statusSpan, { characterData: true, subtree: true, childList: true });
-    observer.observe(remainingSpan, { characterData: true, subtree: true, childList: true });
-  });
-});
-</script>
+<script type="module" src="/assets/js/lessons.js"></script>
+
   </main>
 
   <footer class="border-t border-black/10 py-10 mt-16">
@@ -129,5 +137,6 @@ window.addEventListener('DOMContentLoaded', () => {
       </div>
     </div>
   </footer>
+  <script src="/assets/js/blur-up.js" defer></script>
 </body>
 </html>

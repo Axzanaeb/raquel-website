@@ -1,6 +1,5 @@
 <!doctype html>
-<html lang="en">
-
+<html lang="en" class="h-full">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,14 +9,37 @@
   <meta property="og:description" content="Portfolio and lessons by the artist.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="/about/">
-  <meta property="og:image" content="/images/samples/sample-1.jpg">
+  
+  
+  <meta property="og:image" content="/images/uploads/screenshot_20250816_154501.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <link href="/assets/styles.css" rel="stylesheet">
+  
+  <script type="application/ld+json">{
+    "@context":"https://schema.org",
+    "@type":"Organization",
+    "name":"Studio — Art &amp; Ink",
+    "url":"",
+  "logo":"/images/uploads/screenshot_20250816_154501.png",
+    "sameAs":["https://instagram.com/yourhandle"]
+  }</script>
+  
+  <script type="application/ld+json">{
+    "@context":"https://schema.org",
+    "@graph":[
+    
+    ]
+  }</script>
+  
+  
+  
+  <link rel="preload" as="image" href="/images/uploads/screenshot_20250816_154501.png"/>
+  
 </head>
-
-<body class="font-body text-gray-900">
+<body class="font-body text-gray-900 bg-white"> 
+  <a href="#main" class="skip-link absolute top-[-40px] left-2 bg-black text-white px-3 py-2 focus:top-2 focus:outline-none">Skip to content</a>
   <header class="border-b border-black/10">
     <nav class="container flex items-center justify-between h-16">
       <a href="/" class="font-extrabold tracking-tight text-lg">Studio — Art &amp; Ink</a>
@@ -27,26 +49,22 @@
         <li><a href="/about" class="hover:underline">About</a></li>
         <li><a href="/contact" class="hover:underline">Contact</a></li>
         <li><a href="/admin/" class="hover:underline">CMS</a></li>
-        <li><a href="/admin/registrations" class="hover:underline text-xs opacity-70">Reg*</a></li>
+  <li><a href="/admin/registrations" class="hover:underline text-xs opacity-70">Reg*</a></li>
+  <li><a href="/admin-function-logs" class="hover:underline text-xs opacity-70">Logs*</a></li>
+  
       </ul>
     </nav>
   </header>
 
-  <main class="min-h-[70vh]">
-    <h1>About the Artist</h1>
-    <h2>My Journey</h2>
-    <p>I've been creating art for over a decade, exploring various mediums and techniques. From intricate tattoo designs to expressive paintings and unique clay sculptures, each piece tells a story.</p>
-    <h2>What I Offer</h2>
-    <ul>
-      <li><strong>Custom Tattoo Designs</strong>: Personalized artwork that becomes part of your story</li>
-      <li><strong>Barro Sculptures</strong>: Handcrafted clay pieces with unique textures and forms</li>
-      <li><strong>Original Paintings</strong>: Expressive works in various styles and mediums</li>
-      <li><strong>Art Lessons</strong>: Weekly group sessions to explore creativity together</li>
-    </ul>
-    <h2>Philosophy</h2>
-    <p>Art is a universal language that connects us all. Through my work, I aim to create pieces that resonate with the soul and celebrate the beauty of human expression.</p>
-    <hr>
-    <p><em>Located in Amarante, Portugal</em></p>
+  <main id="main" class="min-h-[70vh]">
+    <section class="container py-12 prose max-w-none">
+  <h1>About</h1>
+  <p>Welcome to my creative world! I&#39;m Raquel, an artist specializing in tattoos, barro (clay work), and paintings.</p>
+  <h2>My Journey</h2><p>I&#39;ve been creating art for over a decade, exploring various mediums and techniques. From intricate tattoo designs to expressive paintings and unique clay sculptures, each piece tells a story.</p>
+  <h2>What I Offer</h2><ul><li>Custom Tattoo Designs – Personalized artwork that becomes part of your story</li><li>Barro Sculptures – Handcrafted clay pieces with unique textures and forms</li><li>Original Paintings – Expressive works in various styles and mediums</li><li>Art Lessons – Weekly group sessions to explore creativity together</li></ul>
+  <h2>Philosophy</h2><p>Art is a universal language that connects us all. Through my work, I aim to create pieces that resonate with the soul and celebrate the beauty of human expression.</p>
+  <hr><p><em>Located in Amarante, Portugal</em></p>
+</section>
 
   </main>
 
@@ -60,6 +78,6 @@
       </div>
     </div>
   </footer>
+  <script src="/assets/js/blur-up.js" defer></script>
 </body>
-
 </html>

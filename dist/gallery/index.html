@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="h-full">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,13 +9,37 @@
   <meta property="og:description" content="Portfolio and lessons by the artist.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="/gallery/">
-  <meta property="og:image" content="/images/samples/sample-1.jpg">
+  
+  
+  <meta property="og:image" content="/images/uploads/screenshot_20250816_154501.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <link href="/assets/styles.css" rel="stylesheet">
+  
+  <script type="application/ld+json">{
+    "@context":"https://schema.org",
+    "@type":"Organization",
+    "name":"Studio — Art &amp; Ink",
+    "url":"",
+  "logo":"/images/uploads/screenshot_20250816_154501.png",
+    "sameAs":["https://instagram.com/yourhandle"]
+  }</script>
+  
+  <script type="application/ld+json">{
+    "@context":"https://schema.org",
+    "@graph":[
+    
+    ]
+  }</script>
+  
+  
+  
+  <link rel="preload" as="image" href="/images/uploads/screenshot_20250816_154501.png"/>
+  
 </head>
-<body class="font-body text-gray-900">
+<body class="font-body text-gray-900 bg-white"> 
+  <a href="#main" class="skip-link absolute top-[-40px] left-2 bg-black text-white px-3 py-2 focus:top-2 focus:outline-none">Skip to content</a>
   <header class="border-b border-black/10">
     <nav class="container flex items-center justify-between h-16">
       <a href="/" class="font-extrabold tracking-tight text-lg">Studio — Art &amp; Ink</a>
@@ -25,66 +49,80 @@
         <li><a href="/about" class="hover:underline">About</a></li>
         <li><a href="/contact" class="hover:underline">Contact</a></li>
         <li><a href="/admin/" class="hover:underline">CMS</a></li>
-        <li><a href="/admin/registrations" class="hover:underline text-xs opacity-70">Reg*</a></li>
+  <li><a href="/admin/registrations" class="hover:underline text-xs opacity-70">Reg*</a></li>
+  <li><a href="/admin-function-logs" class="hover:underline text-xs opacity-70">Logs*</a></li>
+  
       </ul>
     </nav>
   </header>
 
-  <main class="min-h-[70vh]">
+  <main id="main" class="min-h-[70vh]">
     <section class="container py-12">
   <h1 class="text-3xl font-bold mb-8">Gallery</h1>
+  
   <div class="flex gap-3 mb-6">
-    <a href="#" class="btn" onclick="filterCat('all'); return false;">All</a>
-    <a href="#" class="btn" onclick="filterCat('tattoo'); return false;">Tattoos</a>
-    <a href="#" class="btn" onclick="filterCat('barro'); return false;">Barro</a>
-    <a href="#" class="btn" onclick="filterCat('painting'); return false;">Paintings</a>
+    
+      <a href="#" class="btn" data-filter="all">All</a>
+    
+      <a href="#" class="btn" data-filter="tattoo">Tattoos</a>
+    
+      <a href="#" class="btn" data-filter="barro">Barro</a>
+    
+      <a href="#" class="btn" data-filter="painting">Paintings</a>
+    
   </div>
   <div id="grid" class="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
     
-    <figure class="card" data-cat="barro">
+  <figure class="card cursor-pointer group" data-cat="painting" data-full="/images/uploads/untitled.jpg" data-title="island BRac" tabindex="0" role="button" aria-label="Open island BRac image">
       
-        <picture><source type="image/webp" srcset="/images/optimized/wNkhO5unAp-400.webp 400w, /images/optimized/wNkhO5unAp-800.webp 800w">
-<source type="image/jpeg" srcset="/images/optimized/wNkhO5unAp-400.jpeg 400w, /images/optimized/wNkhO5unAp-800.jpeg 800w"><img src="/images/optimized/wNkhO5unAp-400.webp" width="400" height="300" alt="Abstract Clay Vessel" loading="lazy" decoding="async"></picture>
-      
-      <figcaption class="p-4">
-        <span class="badge">barro</span>
-        <h3 class="mt-2 font-semibold">Abstract Clay Vessel</h3>
-      </figcaption>
-    </figure>
-    
-    <figure class="card" data-cat="painting">
-      
-        <picture><source type="image/webp" srcset="/images/optimized/cLu-wCtWNS-400.webp 400w, /images/optimized/cLu-wCtWNS-800.webp 800w">
-<source type="image/jpeg" srcset="/images/optimized/cLu-wCtWNS-400.jpeg 400w, /images/optimized/cLu-wCtWNS-800.jpeg 800w"><img src="/images/optimized/cLu-wCtWNS-400.webp" width="400" height="300" alt="Sunset Over Douro" loading="lazy" decoding="async"></picture>
+    <picture class="blur-wrapper" style="background:#111 center/cover no-repeat url('data:image/webp;base64,UklGRtwAAABXRUJQVlA4INAAAAAQBQCdASoYABAAPm0skkWkIqGYBABABsS2AE6ZQjgb0CmA6qoCgJcf9rjt809MD1wAAP0qI4QYeYw69iM4tuk0ht6OHpGxyzi36YR1ft3t3Ph2f0l52yFNja3Yu6jk+VI+NAn+1xlCPQ+1LAbIlgcuQz5JUQilQ2BYSNPx3f87U7rfbIT4v5NIGDCrbxCOfX5/OgDgrgFRBig4XTI48Wkwb5eyXPMCySk6nuiVJZ3++b/j/iUHNa38HJlm+Typ+sU2v4L9++Ag4aMeb1gAGQAA');"><source type="image/webp" srcset="/images/optimized/h3rpI1wy8f-24.webp 24w, /images/optimized/h3rpI1wy8f-275.webp 275w">
+<source type="image/jpeg" srcset="/images/optimized/h3rpI1wy8f-24.jpeg 24w, /images/optimized/h3rpI1wy8f-275.jpeg 275w"><img src="/images/optimized/h3rpI1wy8f-275.webp" width="275" height="183" alt="island BRac" loading="lazy" decoding="async" class="blur-up" data-blur="1"></picture>
       
       <figcaption class="p-4">
         <span class="badge">painting</span>
-        <h3 class="mt-2 font-semibold">Sunset Over Douro</h3>
+        <h3 class="mt-2 font-semibold group-hover:underline">island BRac</h3>
       </figcaption>
     </figure>
     
-    <figure class="card" data-cat="tattoo">
+  <figure class="card cursor-pointer group" data-cat="tattoo" data-full="/images/uploads/screenshot_20250816_154501.png" data-title="bavk" tabindex="0" role="button" aria-label="Open bavk image">
       
-        <picture><source type="image/webp" srcset="/images/optimized/M2584pD4At-400.webp 400w, /images/optimized/M2584pD4At-800.webp 800w">
-<source type="image/jpeg" srcset="/images/optimized/M2584pD4At-400.jpeg 400w, /images/optimized/M2584pD4At-800.jpeg 800w"><img src="/images/optimized/M2584pD4At-400.webp" width="400" height="300" alt="Dragon Sleeve Tattoo" loading="lazy" decoding="async"></picture>
+    <picture class="blur-wrapper" style="background:#111 center/cover no-repeat url('data:image/webp;base64,UklGRtwAAABXRUJQVlA4INAAAABQBQCdASoYABgAPm0ukkYkIqGhKA1QgA2JYgC0+fjgHqis8XvvnIxvFJWL4wAu2//VuagA/vSp1q8SDWKh8d31rhfrzdvBcIj6mNfr6KZ+pTTjtTlCZc439l6JrsEmuLvXp+6V6fxeXv/ZXCjYpMrt125dieWMubLo3A3QW27i4uyeJaDzgKB84gWjDTguEbpcM9w2Jd2IxCcG9daXGOHSV+GHh56PZ//U3/ziNhRuhihRsZejcWiORr9L0lVeO9obedp0WruOQ4ncvvDRi2AA');"><source type="image/webp" srcset="/images/optimized/QudDrnU2Eo-24.webp 24w, /images/optimized/QudDrnU2Eo-400.webp 400w, /images/optimized/QudDrnU2Eo-723.webp 723w">
+<source type="image/jpeg" srcset="/images/optimized/QudDrnU2Eo-24.jpeg 24w, /images/optimized/QudDrnU2Eo-400.jpeg 400w, /images/optimized/QudDrnU2Eo-723.jpeg 723w"><img src="/images/optimized/QudDrnU2Eo-723.webp" width="723" height="716" alt="bavk" loading="lazy" decoding="async" class="blur-up" data-blur="1"></picture>
       
       <figcaption class="p-4">
         <span class="badge">tattoo</span>
-        <h3 class="mt-2 font-semibold">Dragon Sleeve Tattoo</h3>
+        <h3 class="mt-2 font-semibold group-hover:underline">bavk</h3>
+      </figcaption>
+    </figure>
+    
+  <figure class="card cursor-pointer group" data-cat="painting" data-full="/images/uploads/screenshot_20250816_154427.png" data-title="wine" tabindex="0" role="button" aria-label="Open wine image">
+      
+    <picture class="blur-wrapper" style="background:#111 center/cover no-repeat url('data:image/webp;base64,UklGRsYAAABXRUJQVlA4ILoAAABwBQCdASoYABcAPmkqj0WkIqEYBgBABoSzgGUAxg5wnZz/b6N9GRjeDD++Ql3oRfiKmR3gAP78IDdjt0HDf0CsuzrSZvPrxEL0RMv3KaFXppG/3n5Uqvzldvxid6HioheErBJBkbhRoFwdC+G1R2TSqOS/sYdAdULcteN13MshBQtHRes18/frmIPBdYN/+cqiMmYvmMv83yFOdh3HwD0x4qjaYeSKf9qe1dxLp2qL0l48kaBkFHoAAAA=');"><source type="image/webp" srcset="/images/optimized/aW4aqHC4ak-24.webp 24w, /images/optimized/aW4aqHC4ak-400.webp 400w, /images/optimized/aW4aqHC4ak-614.webp 614w">
+<source type="image/jpeg" srcset="/images/optimized/aW4aqHC4ak-24.jpeg 24w, /images/optimized/aW4aqHC4ak-400.jpeg 400w, /images/optimized/aW4aqHC4ak-614.jpeg 614w"><img src="/images/optimized/aW4aqHC4ak-614.webp" width="614" height="593" alt="wine" loading="lazy" decoding="async" class="blur-up" data-blur="1"></picture>
+      
+      <figcaption class="p-4">
+        <span class="badge">painting</span>
+        <h3 class="mt-2 font-semibold group-hover:underline">wine</h3>
+      </figcaption>
+    </figure>
+    
+  <figure class="card cursor-pointer group" data-cat="painting" data-full="/images/uploads/screenshot_20250816_154445.png" data-title="asdasd" tabindex="0" role="button" aria-label="Open asdasd image">
+      
+    <picture class="blur-wrapper" style="background:#111 center/cover no-repeat url('data:image/webp;base64,UklGRuYBAABXRUJQVlA4INoBAABwCACdASoYAB4APm0qkUWkIqGYBABABsS2AE6ZQjgbxq3DtmOgG8Rbyy+APdaMMZ3HpsOtCFryCX+JDiM/t7Yt+nFvm9Eeg5SL5pLAAP2UsPU1jnz+IJkWq+65uz2aNHK3lxtR39EUWlR2omPef/WCmmpmJdxI1aJvNKGN0U55RBb37+TuPD8CbZ/weI3pKrOmVDHtrM/rXfVspz1/2LNSLPrhz/5Dy3uat30m11X3WMUborUx7JVtR4n6B84E2Qz/5/DXwL1xvzHVq7X/x46k/vn4TjRBSEbaEX2en/hd2U46cZTn4EPpkviy6TXI+IoHu1IeYnTfb3QLnCXODjXgOzek7h0zsBzHckGofzNXPcZ1tXH7c7Badk/oX/ywGxxzBTkP087ZbZrTKnt/9K/ETntsGyHsnOq0/Yf/6im1LR5ISZGXVmRo0egBhQKrjgHayChIuU5552cLZkaqS+5X0nb+Fhp7ogDOZr9UNgAcLCDGxqmprm65pjawpp0E19RoYE706B/pYcRG8aApyU2v30gR2/gBkuiNu3J8u4m9aM+0b3yNPGsZlFIRatLV2P0osmmvru8iES4DUm7HCS75VIjVh8eJ61K/UfNFbSsMSjGjKHbesSHkAAA=');"><source type="image/webp" srcset="/images/optimized/xxQzRSg0K6-24.webp 24w, /images/optimized/xxQzRSg0K6-400.webp 400w, /images/optimized/xxQzRSg0K6-572.webp 572w">
+<source type="image/jpeg" srcset="/images/optimized/xxQzRSg0K6-24.jpeg 24w, /images/optimized/xxQzRSg0K6-400.jpeg 400w, /images/optimized/xxQzRSg0K6-572.jpeg 572w"><img src="/images/optimized/xxQzRSg0K6-572.webp" width="572" height="710" alt="asdasd" loading="lazy" decoding="async" class="blur-up" data-blur="1"></picture>
+      
+      <figcaption class="p-4">
+        <span class="badge">painting</span>
+        <h3 class="mt-2 font-semibold group-hover:underline">asdasd</h3>
       </figcaption>
     </figure>
     
   </div>
+  <div class="mt-10 text-center">
+    <button id="loadMore" class="btn" type="button">Load More</button>
+  </div>
 </section>
-<script>
-function filterCat(cat){
-  const items = document.querySelectorAll('#grid [data-cat]');
-  items.forEach(el => {
-    const show = (cat==='all') || (el.dataset.cat === cat);
-    el.style.display = show ? '' : 'none';
-  });
-}
-</script>
+<script src="/assets/js/gallery.js" defer></script>
   </main>
 
   <footer class="border-t border-black/10 py-10 mt-16">
@@ -97,5 +135,6 @@ function filterCat(cat){
       </div>
     </div>
   </footer>
+  <script src="/assets/js/blur-up.js" defer></script>
 </body>
 </html>

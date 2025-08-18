@@ -53,7 +53,7 @@
 </head>
 <body class="font-body text-gray-900 bg-white"> 
   <a href="#main" class="skip-link absolute top-[-40px] left-2 bg-black text-white px-3 py-2 focus:top-2 focus:outline-none">Skip to content</a>
-  <header class="border-b border-black/10 dark:border-white/10">
+  <header class="border-b border-black/10">
     <nav class="container flex items-center justify-between h-16">
       <a href="/" class="font-extrabold tracking-tight text-lg">{{ site.title }}</a>
       <ul class="flex items-center gap-6">
@@ -73,7 +73,7 @@
     {{ content | safe }}
   </main>
 
-  <footer class="border-t border-black/10 dark:border-white/10 py-10 mt-16">
+  <footer class="border-t border-black/10 py-10 mt-16">
     <div class="container flex flex-col md:flex-row items-center justify-between gap-6">
       <p class="text-sm">© {{ ("now" | date | readableDate) or "2025" }} — {{ site.title }} · {{ site.location }}</p>
       <div class="flex items-center gap-4">
