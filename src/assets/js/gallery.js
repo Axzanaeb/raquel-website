@@ -25,24 +25,47 @@
   filters.forEach(f=>f.addEventListener('click', e=>{ e.preventDefault(); active=f.dataset.filter; apply(); render(true);}));
   if(btn) btn.addEventListener('click', ()=>render());
 
-  // Lightbox
+  // Lightbox (inline styles ensure reliability without Tailwind classes)
   (function(){
     if(!items.length) return;
     const overlay = document.createElement('div');
-    overlay.className='fixed inset-0 bg-black/80 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity z-50';
-    overlay.innerHTML='<div class="relative max-w-3xl w-full"><button type="button" aria-label="Close" class="absolute -top-10 right-0 text-white text-2xl font-bold" id="lbX">×</button><img id="lbImg" class="max-h-[70vh] w-auto mx-auto rounded shadow" alt="" /><p id="lbCap" class="text-center text-white mt-4 text-sm"></p></div>';
+    overlay.setAttribute('role','dialog');
+    overlay.setAttribute('aria-modal','true');
+    overlay.style.cssText = [
+      'position:fixed','inset:0','background:rgba(0,0,0,0.8)','display:flex','align-items:center',
+      'justify-content:center','padding:1rem','z-index:999','opacity:0','pointer-events:none',
+      'transition:opacity .18s ease'
+    ].join(';');
+    overlay.innerHTML = [
+      '<div style="position:relative;max-width:900px;width:100%;text-align:center;color:#fff;font:inherit">',
+      '  <button type="button" aria-label="Close" id="lbX"',
+      '    style="position:absolute;top:-40px;right:0;background:none;border:0;color:#fff;font-size:32px;line-height:1;cursor:pointer;font-weight:700">×</button>',
+      '  <img id="lbImg" alt="" style="max-height:70vh;width:auto;max-width:100%;border-radius:8px;box-shadow:0 4px 24px rgba(0,0,0,.4)" />',
+      '  <p id="lbCap" style="margin-top:12px;font-size:14px;opacity:.9"></p>',
+      '</div>'
+    ].join('');
     document.body.appendChild(overlay);
-    const img=overlay.querySelector('#lbImg');
-    const cap=overlay.querySelector('#lbCap');
-    const closeBtn=overlay.querySelector('#lbX');
+    const img = overlay.querySelector('#lbImg');
+    const cap = overlay.querySelector('#lbCap');
+    const closeBtn = overlay.querySelector('#lbX');
     function open(fig){
-      img.src=fig.dataset.full; img.alt=fig.dataset.title||''; cap.textContent=fig.dataset.title||'';
-      overlay.style.pointerEvents='auto'; overlay.classList.remove('opacity-0'); overlay.classList.add('opacity-100');
+      img.src = fig.dataset.full;
+      img.alt = fig.dataset.title || '';
+      cap.textContent = fig.dataset.title || '';
+      overlay.style.pointerEvents = 'auto';
+      overlay.style.opacity = '1';
     }
-    function close(){ overlay.classList.add('opacity-0'); overlay.classList.remove('opacity-100'); overlay.style.pointerEvents='none'; }
-    items.forEach(f=>{ f.addEventListener('click',()=>open(f)); f.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' ') { e.preventDefault(); open(f);} }); });
-    closeBtn.addEventListener('click', close); overlay.addEventListener('click',e=>{ if(e.target===overlay) close(); });
-    document.addEventListener('keydown',e=>{ if(e.key==='Escape') close(); });
+    function close(){
+      overlay.style.opacity = '0';
+      overlay.style.pointerEvents = 'none';
+    }
+    items.forEach(f=>{
+      f.addEventListener('click',()=>open(f));
+      f.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); open(f);} });
+    });
+    closeBtn.addEventListener('click', close);
+    overlay.addEventListener('click', e=>{ if(e.target===overlay) close(); });
+    document.addEventListener('keydown', e=>{ if(e.key==='Escape') close(); });
   })();
 
   apply();
