@@ -3,14 +3,28 @@ layout: base
 title: Home
 ---
 {% from "partials/hero.njk" import hero %}
-{% from "partials/cards.njk" import artworkCard %}
 {{ hero(site) }}
 
 <section class="container py-12">
   <h2 class="text-2xl font-bold mb-6">{{ site.latest_artworks_heading or 'Latest artworks' }}</h2>
+  {% set latest = homeArtworks %}
   <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
-    {% for post in collections.artworks | slice(0,6) %}
-      {{ artworkCard(post) }}
-    {% endfor %}
+    {% if latest and latest.length %}
+      {% for post in latest %}
+      <article class="card overflow-hidden">
+        <a href="{{ post.url }}" class="block group">
+          {% if post.data.image %}
+            <img src="{{ post.data.image }}" alt="{{ post.data.alt or post.data.title }}" class="w-full h-full object-cover" loading="lazy" decoding="async" />
+          {% endif %}
+          <div class="p-4">
+            <span class="badge">{{ post.data.category }}</span>
+            <h3 class="mt-2 font-semibold group-hover:underline transition">{{ post.data.title }}</h3>
+          </div>
+        </a>
+      </article>
+      {% endfor %}
+    {% else %}
+      <p class="col-span-full text-sm text-gray-500">No artworks yet.</p>
+    {% endif %}
   </div>
 </section>

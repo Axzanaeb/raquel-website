@@ -1,8 +1,6 @@
-{% macro artworkCard(post) %}
 <article class="card overflow-hidden">
   <a href="{{ post.url }}" class="block group">
     {% if post.data.image %}
-      {# Use optimized responsive image with placeholder #}
       {% optImg post.data.image, post.data.alt or post.data.title %}
     {% endif %}
     <div class="p-4">
@@ -11,4 +9,3 @@
     </div>
   </a>
 </article>
-{% endmacro %}
