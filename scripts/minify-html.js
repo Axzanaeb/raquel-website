@@ -16,8 +16,7 @@ function walk(dir){
         removeComments: true,
         removeRedundantAttributes: true,
         minifyCSS: true,
-        // IMPORTANT: keep inline JS exact so CSP hash remains valid
-        minifyJS: false
+        minifyJS: true
       });
       fs.writeFileSync(p, out);
     }

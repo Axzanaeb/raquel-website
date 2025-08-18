@@ -1,17 +1,11 @@
-const { DateTime } = require("luxon");
-const Image = require('@11ty/eleventy-img');
 const fs = require('fs');
 const path = require('path');
 
 module.exports = function(eleventyConfig) {
-  // Passthrough static assets
+  // Passthrough static assets (limit to what we actually use)
   eleventyConfig.addPassthroughCopy({ "src/images": "images" });
   eleventyConfig.addPassthroughCopy({ "admin": "admin" });
-  // JS assets (gallery, theme-related scripts, admin dashboards, etc.)
-  // Passthrough JS assets
   eleventyConfig.addPassthroughCopy({ "src/assets/js": "assets/js" });
-  // Redundant: copy entire assets folder (ensures js not skipped if future subfolders added)
-  eleventyConfig.addPassthroughCopy({ "src/assets": "assets" });
 
   // Collections
   eleventyConfig.addCollection("artworks", (collection) => {
@@ -27,21 +21,12 @@ module.exports = function(eleventyConfig) {
   });
 
   // Filters
-  eleventyConfig.addFilter("readableDate", (dateObj) => {
-    try {
-
-      return DateTime.fromJSDate(new Date(dateObj)).toFormat("dd LLL yyyy, HH:mm");
-    } catch {
-      return dateObj;
-    }
+  const fmt = new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+  eleventyConfig.addFilter("readableDate", (d) => {
+    try { return fmt.format(new Date(d)); } catch { return d; }
   });
-
-  eleventyConfig.addFilter("date", (dateObj) => {
-    try {
-      return DateTime.fromJSDate(new Date(dateObj)).toFormat("yyyy");
-    } catch {
-      return new Date().getFullYear();
-    }
+  eleventyConfig.addFilter("date", (d) => {
+    try { return new Date(d).getFullYear(); } catch { return new Date().getFullYear(); }
   });
 
   // Minimal XML escape filter (used in feed.njk)
@@ -55,46 +40,6 @@ module.exports = function(eleventyConfig) {
       .replace(/'/g, '&apos;');
   });
 
-  // Image shortcode (updated path resolution + graceful fallback + placeholder)
-  eleventyConfig.addNunjucksAsyncShortcode('optImg', async function(src, alt = '', widths = [400, 800], formats = ['webp','jpeg']){
-    try {
-      if(!src) return '';
-      let original = src;
-      // If starts with / treat as under ./src
-      if(src.startsWith('/')) {
-        original = path.join('src', src); // e.g. /images/foo.jpg -> src/images/foo.jpg
-      }
-      if(!fs.existsSync(original)) {
-        // Fallback: output plain img tag (maybe remote URL or missing during draft)
-        return `<img src="${src}" alt="${alt}">`;
-      }
-      // Ensure a tiny width for placeholder (add 24 if not present)
-      const uniqueWidths = Array.from(new Set([24, ...widths])).sort((a,b)=>a-b);
-      const metadata = await Image(original, {
-        widths: uniqueWidths,
-        formats,
-        urlPath: '/images/optimized/',
-        outputDir: 'dist/images/optimized/'
-      });
-      const firstFormatKey = Object.keys(metadata)[0];
-      const smallest = metadata[firstFormatKey][0]; // should be width 24
-      let placeholderDataUri = '';
-      try {
-        const buf = fs.readFileSync(smallest.outputPath);
-        placeholderDataUri = `data:${smallest.sourceType};base64,${buf.toString('base64')}`;
-      } catch {}
-      const sources = Object.values(metadata).map(imageFormat => {
-        return `<source type="${imageFormat[0].sourceType}" srcset="${imageFormat.map(entry => entry.srcset).join(', ')}">`;
-      }).join('\n');
-      const largest = metadata[firstFormatKey][metadata[firstFormatKey].length -1];
-      const styleBg = placeholderDataUri ? `background:#111 center/cover no-repeat url('${placeholderDataUri}');` : 'background:#111';
-  // Removed inline onload handler for CSP compliance; JS will attach load listeners to add 'loaded' class
-  return `<picture class="blur-wrapper" style="${styleBg}">${sources}<img src="${largest.url}" width="${largest.width}" height="${largest.height}" alt="${alt}" loading="lazy" decoding="async" class="blur-up" data-blur="1"></picture>`;
-    } catch(e) {
-      console.warn('optImg error for', src, e.message);
-      return `<img src="${src}" alt="${alt}">`;
-    }
-  });
 
   // Sitemap generation after build
   eleventyConfig.on('afterBuild', () => {

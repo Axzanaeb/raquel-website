@@ -6,8 +6,8 @@
     "dev": "concurrently -k \"npm:dev:*\"",
     "dev:eleventy": "eleventy --serve --input=src --output=dist",
     "dev:css": "postcss src/styles/tailwind.css -o dist/assets/styles.css -w",
-    "build": "rm -rf dist && eleventy --input=src --output=dist && postcss src/styles/tailwind.css -o dist/assets/styles.css",
-    "build:prod": "rm -rf dist && NODE_ENV=production eleventy --input=src --output=dist && postcss src/styles/tailwind.css -o dist/assets/styles.css && node scripts/minify-html.js && node scripts/postbuild-log.js",
+    "build": "rm -rf dist && eleventy --input=src --output=dist && postcss src/styles/tailwind.css -o dist/assets/styles.css && node scripts/cleanup-orphan-js.js",
+    "build:prod": "rm -rf dist && NODE_ENV=production eleventy --input=src --output=dist && postcss src/styles/tailwind.css -o dist/assets/styles.css && node scripts/minify-html.js && node scripts/cleanup-orphan-js.js",
     "preview": "npx http-server dist -p 4321",
     "validate": "node scripts/validate.js"
   },
@@ -22,8 +22,6 @@
     "tailwindcss": "^3.4.10"
   },
   "dependencies": {
-    "@11ty/eleventy-img": "^6.0.4",
-    "@supabase/supabase-js": "^2.43.5",
-    "luxon": "^3.7.1"
+    "@supabase/supabase-js": "^2.43.5"
   }
 }
