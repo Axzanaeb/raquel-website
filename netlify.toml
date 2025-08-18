@@ -38,11 +38,6 @@
   to = "/admin/"
   status = 200
 
-# Prevent HTML fallback for missing JS (gives clean 404 instead of serving index.html with text/html MIME)
-[[redirects]]
-  from = "/assets/js/*"
-  to = "/404.html"
-  status = 404
 
 # Global Security headers (stricter, no unsafe-eval)
 [[headers]]
@@ -64,6 +59,13 @@
   for = "/assets/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
+
+# Temporary: ensure correct MIME for JS and disable cache bust issues for js folder
+[[headers]]
+  for = "/assets/js/*"
+  [headers.values]
+    Content-Type = "application/javascript; charset=utf-8"
+    Cache-Control = "public, max-age=60"
 
 # Relaxed CSP only for admin (Decap CMS requires eval)
 [[headers]]
