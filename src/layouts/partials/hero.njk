@@ -21,14 +21,9 @@
         {% for img in heroes %}
           {% set src = img.image or img %}
           {% if src %}
+            {% set altText = img.alt or ('Hero image ' + loop.index) %}
             <figure class="card overflow-hidden">
-              {% set altText = img.alt or ('Hero image ' + loop.index) %}
-              {# Use optImg if path is absolute (starts with /) assuming local asset; else plain img #}
-              {% if src and src[0] == '/' %}
-                {% optImg src, altText %}
-              {% else %}
-                <img class="aspect-square object-cover w-full h-full" src="{{ src }}" alt="{{ altText | escape }}" loading="{{ 'eager' if loop.first else 'lazy' }}" decoding="async" />
-              {% endif %}
+              <img class="aspect-square object-cover w-full h-full" src="{{ src }}" alt="{{ altText | escape }}" loading="{{ 'eager' if loop.first else 'lazy' }}" decoding="async" />
             </figure>
           {% endif %}
         {% endfor %}
