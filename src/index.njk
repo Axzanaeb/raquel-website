@@ -28,8 +28,8 @@ title: Home
           {% if src %}
             <figure class="card overflow-hidden">
               {% if src | startsWith('/images/uploads/') %}
-                {% raw %}{% endraw %}{% set alt = img.alt or ('Hero image ' + loop.index) %}{% raw %}{% endraw %}
-                {% optImg src alt %}
+                {% set alt = img.alt or ('Hero image ' + loop.index) %}
+                {% optImg src, alt %}
               {% else %}
                 <img class="aspect-square object-cover w-full h-full" src="{{ src }}" alt="{{ (img.alt or ('Hero image ' + loop.index)) | escape }}" loading="{{ 'eager' if loop.first else 'lazy' }}" decoding="async" />
               {% endif %}
