@@ -1,14 +1,13 @@
 export function initLessonForms(){
   document.querySelectorAll('[data-lesson-form]')?.forEach(form => {
     const slug = form.dataset.slug;
-    const capacity = parseInt(form.dataset.capacity || '0', 10);
     const statusEl = form.querySelector('[data-status]');
     const remainingEl = form.querySelector('[data-remaining]');
     const containerCard = form.closest('.card');
 
-    async function refresh(){
+  async function refresh(){
       try {
-        const res = await fetch(`/api/lesson-status?slug=${encodeURIComponent(slug)}&capacity=${capacity}`);
+    const res = await fetch(`/api/lesson-status?slug=${encodeURIComponent(slug)}`);
         const data = await res.json();
         if(remainingEl) remainingEl.textContent = data.remaining;
         const submitBtn = form.querySelector('button[type="submit"]');
@@ -35,12 +34,7 @@ export function initLessonForms(){
         return; // silently drop bots
       }
       const fd = new FormData(form);
-      const payload = {
-        slug,
-        name: fd.get('name'),
-        email: fd.get('email'),
-        capacity
-      };
+  const payload = { slug, name: fd.get('name'), email: fd.get('email') };
       const btn = form.querySelector('button[type="submit"]');
       btn.disabled = true;
       btn.textContent = 'Submitting…';
@@ -55,7 +49,7 @@ export function initLessonForms(){
         form.reset();
         await refresh();
         btn.textContent = 'Registered';
-      } catch(err){
+      } catch(err) {
         alert(err.message);
         btn.textContent = 'Try again';
         btn.disabled = false;
@@ -72,5 +66,22 @@ export function initLessonForms(){
 }
 
 if(typeof window !== 'undefined'){
-  window.addEventListener('DOMContentLoaded', initLessonForms);
+  window.addEventListener('DOMContentLoaded', () => {
+    initLessonForms();
+    // Mirror badge counts outside form
+    document.querySelectorAll('[data-lesson-form]').forEach(form => {
+      const slug = form.dataset.slug;
+      const statusSpan = form.querySelector('[data-status]');
+      const remainingSpan = form.querySelector('[data-remaining]');
+      const externalStatus = document.querySelector(`[data-status-badge="${slug}"]`);
+      const externalRemaining = document.querySelector(`[data-remaining-badge="${slug}"]`);
+      if(!statusSpan || !remainingSpan) return;
+      const observer = new MutationObserver(() => {
+        if(externalStatus) externalStatus.textContent = statusSpan.textContent;
+        if(externalRemaining) externalRemaining.textContent = remainingSpan.textContent;
+      });
+      observer.observe(statusSpan, { characterData: true, subtree: true, childList: true });
+      observer.observe(remainingSpan, { characterData: true, subtree: true, childList: true });
+    });
+  });
 }

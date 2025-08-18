@@ -27,7 +27,12 @@ title: Home
           {% set src = img.image or img %}
           {% if src %}
             <figure class="card overflow-hidden">
-              <img class="aspect-square object-cover w-full h-full" src="{{ src }}" alt="{{ (img.alt or ('Hero image ' + loop.index)) | escape }}" loading="{{ 'eager' if loop.first else 'lazy' }}" decoding="async" />
+              {% if src startswith '/images/uploads/' %}
+                {% raw %}{% endraw %}{% set alt = img.alt or ('Hero image ' + loop.index) %}{% raw %}{% endraw %}
+                {% optImg src alt %}
+              {% else %}
+                <img class="aspect-square object-cover w-full h-full" src="{{ src }}" alt="{{ (img.alt or ('Hero image ' + loop.index)) | escape }}" loading="{{ 'eager' if loop.first else 'lazy' }}" decoding="async" />
+              {% endif %}
             </figure>
           {% endif %}
         {% endfor %}

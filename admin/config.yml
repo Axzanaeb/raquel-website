@@ -100,6 +100,28 @@ collections:
               - { label: Image, name: image, widget: image }
               - { label: Alt Text, name: alt, widget: string, required: false }
           - { label: "Latest Artworks Heading", name: "latest_artworks_heading", widget: "string", required: false }
+          # Gallery page configurable text
+          - { label: "Gallery Heading", name: "gallery_heading", widget: "string", required: false }
+          - label: "Gallery Filters"
+            name: gallery_filters
+            widget: list
+            required: false
+            fields:
+              - { label: Label, name: label, widget: string }
+              - { label: Value, name: value, widget: string }
+          - { label: "Gallery Load More Label", name: "gallery_load_more_label", widget: "string", required: false }
+          # Lessons page configurable text
+          - { label: "Lessons Heading", name: "lessons_heading", widget: "string", required: false }
+          - label: "Lesson Steps"
+            name: lessons_steps
+            widget: list
+            required: false
+            field: { label: Step, name: step, widget: string }
+          - { label: "Lessons Help Heading", name: "lessons_help_heading", widget: "string", required: false }
+          - { label: "Lessons Help Text", name: "lessons_help_text", widget: "text", required: false }
+          # Contact page configurable text
+          - { label: "Contact Heading", name: "contact_heading", widget: "string", required: false }
+          - { label: "Contact Intro", name: "contact_intro", widget: "text", required: false }
           - label: Analytics (Optional)
             name: analytics
             widget: object

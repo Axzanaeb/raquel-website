@@ -30,5 +30,41 @@
     }
   ],
   "hero_heading": "Art & Ink",
-  "hero_primary_cta_url": "/gallery"
+  "hero_primary_cta_url": "/gallery",
+  "gallery_heading": "Gallery",
+  "gallery_filters": [
+    {
+      "label": "All",
+      "value": "all"
+    },
+    {
+      "label": "Tattoos",
+      "value": "tattoo"
+    },
+    {
+      "label": "Barro",
+      "value": "barro"
+    },
+    {
+      "label": "Paintings",
+      "value": "painting"
+    }
+  ],
+  "gallery_load_more_label": "Load More",
+  "lessons_heading": "Group Lessons",
+  "lessons_steps": [
+    {
+      "step": "Find a lesson and register."
+    },
+    {
+      "step": "If seats remain, you get a pending spot."
+    },
+    {
+      "step": "Admin confirms by email (manual for now)."
+    }
+  ],
+  "lessons_help_heading": "Need help?",
+  "lessons_help_text": "Contact us via Instagram or email.",
+  "contact_heading": "Contact",
+  "contact_intro": "For commissions, bookings, and questions, reach out via email."
 }

@@ -9,7 +9,9 @@
   <meta property="og:description" content="{{ site.description }}">
   <meta property="og:type" content="website">
   <meta property="og:url" content="{{ site.url or '' }}{{ page.url }}">
-  <meta property="og:image" content="{{ site.og_image or '/images/samples/sample-1.jpg' }}">
+  {# Use explicit OG image if set; else first hero image; else omit fallback sample #}
+  {% set ogImg = site.og_image or (site.hero_images and site.hero_images[0] and site.hero_images[0].image) %}
+  {% if ogImg %}<meta property="og:image" content="{{ ogImg }}">{% endif %}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
@@ -20,7 +22,7 @@
     "@type":"Organization",
     "name":"{{ site.title | escape }}",
     "url":"{{ site.url or '' }}",
-    "logo":"{{ site.og_image or '/images/samples/sample-1.jpg' }}",
+  {% if ogImg %}"logo":"{{ ogImg }}",{% endif %}
     "sameAs":["{{ site.social.instagram }}"]
   }</script>
   {% if collections.lessons and collections.lessons.length %}

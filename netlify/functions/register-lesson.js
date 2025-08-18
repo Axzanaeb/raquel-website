@@ -33,7 +33,26 @@ async function insertLog(row){
   try {
     const svc = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_KEY, { auth:{autoRefreshToken:false, persistSession:false} });
     await svc.from('function_logs').insert(row);
-  } catch(e){ /* swallow */ }
+  } catch(e){ console.warn('log insert failed', e.message); }
+}
+
+async function getLessonMeta(slug){
+  const { data: lessonMeta, error: metaError } = await client
+    .from('lessons_public')
+    .select('capacity')
+    .eq('slug', slug)
+    .maybeSingle();
+  if(metaError) throw metaError;
+  return lessonMeta;
+}
+
+async function currentCount(slug){
+  const { count, error } = await client
+    .from('lesson_registrations')
+    .select('*', { count: 'exact', head: true })
+    .eq('lesson_slug', slug);
+  if(error) throw error;
+  return count;
 }
 
 // Optional email (Resend) env vars
@@ -48,6 +67,23 @@ const MAX_PER_WINDOW = 5;
 
 function rateKey(ip, slug){
   return `${ip}|${slug}`;
+}
+
+function basicValidate({ slug, name, email }){
+  if(!slug || !name || !email) return 'Missing fields';
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return 'Invalid email';
+  if(name.length > 120) return 'Name too long';
+  return null;
+}
+
+function applyRateLimit(ip, slug){
+  const key = rateKey(ip, slug);
+  const now = Date.now();
+  const entry = attempts.get(key) || { count: 0, start: now };
+  if(now - entry.start > WINDOW_MS) { entry.count = 0; entry.start = now; }
+  entry.count += 1;
+  attempts.set(key, entry);
+  return entry.count <= MAX_PER_WINDOW;
 }
 
 async function sendEmails({ name, email, slug }) {
@@ -87,66 +123,61 @@ export default async function handler(event, context) {
   try {
     const ip = event.headers['x-forwarded-for']?.split(',')[0] || event.headers['client-ip'] || 'unknown';
     const body = JSON.parse(event.body || '{}');
-    const { slug, name, email, capacity } = body;
-    if(!slug || !name || !email) {
-      return { statusCode: 400, body: JSON.stringify({ error: 'Missing fields' }) };
-    }
-    // Validate slug against list if available
-    const valSlugs = await loadValidSlugs();
-    if(valSlugs !== 'SKIP' && !valSlugs.has(slug)) {
-      await logAttempt({ slug, ip, ok:false });
-      return { statusCode: 400, body: JSON.stringify({ error: 'Invalid lesson' }) };
-    }
-    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      return { statusCode: 400, body: JSON.stringify({ error: 'Invalid email' }) };
-    }
+    const { slug, name, email } = body;
 
-    // Honeypot already handled on client; additional simple bot heuristic
-    if(name.length > 120) return { statusCode: 400, body: JSON.stringify({ error: 'Name too long' }) };
+    async function processRegistration(){
+      // Basic validation
+      const validationError = basicValidate({ slug, name, email });
+      if(validationError) return { code: 400, payload: { error: validationError } };
 
-    // Rate limiting
-    const key = rateKey(ip, slug);
-    const now = Date.now();
-    const entry = attempts.get(key) || { count: 0, start: now };
-    if(now - entry.start > WINDOW_MS) {
-      entry.count = 0; entry.start = now;
-    }
-    entry.count += 1;
-    attempts.set(key, entry);
-    if(entry.count > MAX_PER_WINDOW) {
-      return { statusCode: 429, body: JSON.stringify({ error: 'Too many attempts, try later' }) };
-    }
-
-    // Check current count (RLS should allow counting registrations per slug)
-    const { count, error: countError } = await client
-      .from('lesson_registrations')
-      .select('*', { count: 'exact', head: true })
-      .eq('lesson_slug', slug);
-    if(countError) throw countError;
-
-    if(typeof capacity === 'number' && count >= capacity) {
-      return { statusCode: 409, body: JSON.stringify({ error: 'Lesson full' }) };
-    }
-
-    const emailHash = await sha256Hex(email);
-    const { error: insertError } = await client
-      .from('lesson_registrations')
-      .insert({ lesson_slug: slug, name, email, email_hash: emailHash });
-
-    if(insertError){
-      if(insertError.code === '23505'){ // unique_violation
+      // Slug allow-list (if available)
+      const valSlugs = await loadValidSlugs();
+      if(valSlugs !== 'SKIP' && !valSlugs.has(slug)) {
         await logAttempt({ slug, ip, ok:false });
-        await insertLog({ fn:'register-lesson', slug, ip, ok:false });
-        return { statusCode: 409, body: JSON.stringify({ error: 'Already registered' }) };
+        return { code: 400, payload: { error: 'Invalid lesson' } };
       }
-      throw insertError;
+
+      // Rate limiting (honeypot already handled client side)
+      if(!applyRateLimit(ip, slug)) {
+        return { code: 429, payload: { error: 'Too many attempts, try later' } };
+      }
+
+      // Capacity & existence check (authoritative DB)
+      const lessonMeta = await getLessonMeta(slug);
+      if(!lessonMeta) {
+        return { code: 400, payload: { error: 'Unknown lesson' } };
+      }
+      const authoritativeCapacity = typeof lessonMeta.capacity === 'number' ? lessonMeta.capacity : null;
+      if(authoritativeCapacity !== null){
+        const count = await currentCount(slug);
+        if(count >= authoritativeCapacity) {
+          return { code: 409, payload: { error: 'Lesson full' } };
+        }
+      }
+
+      // Insert registration
+      const emailHash = await sha256Hex(email);
+      const { error: insertError } = await client
+        .from('lesson_registrations')
+        .insert({ lesson_slug: slug, name, email, email_hash: emailHash });
+
+      if(insertError){
+        if(insertError.code === '23505'){ // unique_violation
+          await logAttempt({ slug, ip, ok:false });
+          await insertLog({ fn:'register-lesson', slug, ip, ok:false });
+          return { code: 409, payload: { error: 'Already registered' } };
+        }
+        throw insertError;
+      }
+
+      await insertLog({ fn:'register-lesson', slug, ip, ok:true });
+      // Fire & forget emails
+      sendEmails({ name, email, slug });
+      return { code: 201, payload: { success: true } };
     }
 
-    await insertLog({ fn:'register-lesson', slug, ip, ok:true });
-    // Fire and forget emails
-    sendEmails({ name, email, slug });
-
-    return { statusCode: 201, body: JSON.stringify({ success: true }) };
+    const result = await processRegistration();
+    return { statusCode: result.code, body: JSON.stringify(result.payload) };
   } catch(err) {
     return { statusCode: 500, body: JSON.stringify({ error: err.message }) };
   }
