@@ -28,6 +28,7 @@
   // Lightbox (inline styles ensure reliability without Tailwind classes)
   (function(){
     if(!items.length) return;
+    const SHOW_CAPTION = true; // set to false to hide caption text overlay
     const overlay = document.createElement('div');
     overlay.setAttribute('role','dialog');
     overlay.setAttribute('aria-modal','true');
@@ -37,23 +38,35 @@
       'transition:opacity .18s ease'
     ].join(';');
     overlay.innerHTML = [
-      '<div style="position:relative;max-width:900px;width:100%;text-align:center;color:#fff;font:inherit">',
+      '<div style="position:relative;max-width:900px;width:100%;text-align:center;color:#fff;font:inherit;display:flex;flex-direction:column;align-items:center;">',
       '  <button type="button" aria-label="Close" id="lbX"',
-      '    style="position:absolute;top:-40px;right:0;background:none;border:0;color:#fff;font-size:32px;line-height:1;cursor:pointer;font-weight:700">×</button>',
-      '  <img id="lbImg" alt="" style="max-height:70vh;width:auto;max-width:100%;border-radius:8px;box-shadow:0 4px 24px rgba(0,0,0,.4)" />',
-      '  <p id="lbCap" style="margin-top:12px;font-size:14px;opacity:.9"></p>',
+      '    style="position:absolute;top:8px;right:8px;background:rgba(0,0,0,.4);border:0;color:#fff;font-size:28px;line-height:1;cursor:pointer;font-weight:600;width:40px;height:40px;border-radius:6px;">×</button>',
+      '  <img id="lbImg" alt="" style="max-height:70vh;width:auto;max-width:100%;border-radius:8px;box-shadow:0 4px 24px rgba(0,0,0,.4);object-fit:contain;" />',
+      '  <div id="lbCaptionWrap" style="position:absolute;left:0;bottom:0;width:100%;pointer-events:none;">',
+      '    <p id="lbCap" style="margin:0;padding:12px 16px;font-size:14px;line-height:1.3;background:linear-gradient(to top,rgba(0,0,0,.55),rgba(0,0,0,0));text-shadow:0 1px 2px rgba(0,0,0,.6);"></p>',
+      '  </div>',
       '</div>'
     ].join('');
     document.body.appendChild(overlay);
     const img = overlay.querySelector('#lbImg');
     const cap = overlay.querySelector('#lbCap');
     const closeBtn = overlay.querySelector('#lbX');
+    const captionWrap = overlay.querySelector('#lbCaptionWrap');
     function open(fig){
       img.src = fig.dataset.full;
       img.alt = fig.dataset.title || '';
-      cap.textContent = fig.dataset.title || '';
+      const title = fig.dataset.title || '';
+      if(SHOW_CAPTION && title){
+        cap.textContent = title;
+        captionWrap.style.display='block';
+      } else {
+        cap.textContent='';
+        captionWrap.style.display='none';
+      }
       overlay.style.pointerEvents = 'auto';
       overlay.style.opacity = '1';
+      // focus close for accessibility
+      setTimeout(()=>closeBtn.focus(), 30);
     }
     function close(){
       overlay.style.opacity = '0';
