@@ -33,38 +33,3 @@ title: Gallery
   </div>
 </section>
 <script src="/assets/js/gallery.js" defer></script>
----
-layout: base
-title: Gallery
----
-<section class="container py-12">
-  <h1 class="text-3xl font-bold mb-8">{{ site.gallery_heading or 'Gallery' }}</h1>
-  {% set filters = site.gallery_filters or [
-    { label: 'All', value: 'all' },
-    { label: 'Tattoos', value: 'tattoo' },
-    { label: 'Barro', value: 'barro' },
-    { label: 'Paintings', value: 'painting' }
-  ] %}
-  <div class="flex gap-3 mb-6">
-    {% for f in filters %}
-      <a href="#" class="btn" data-filter="{{ f.value }}">{{ f.label }}</a>
-    {% endfor %}
-  </div>
-  <div id="grid" class="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
-    {% for post in collections.artworks %}
-  <figure class="card cursor-pointer group hidden" data-cat="{{ post.data.category }}" data-full="{{ post.data.image }}" data-title="{{ post.data.alt or post.data.title }}" tabindex="0" role="button" aria-label="Open {{ post.data.alt or post.data.title }} image">
-      {% if post.data.image %}
-    {% optImg post.data.image, post.data.alt or post.data.title %}
-      {% endif %}
-      <figcaption class="p-4">
-        <span class="badge">{{ post.data.category }}</span>
-        <h3 class="mt-2 font-semibold group-hover:underline">{{ post.data.title }}</h3>
-      </figcaption>
-    </figure>
-    {% endfor %}
-  </div>
-  <div class="mt-10 text-center">
-    <button id="loadMore" class="btn" type="button">{{ site.gallery_load_more_label or 'Load More' }}</button>
-  </div>
-</section>
-<script src="/assets/js/gallery.js" defer></script>
