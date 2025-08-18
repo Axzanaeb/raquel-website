@@ -85,7 +85,8 @@ module.exports = function(eleventyConfig) {
       }).join('\n');
       const largest = metadata[firstFormatKey][metadata[firstFormatKey].length -1];
       const styleBg = placeholderDataUri ? `background:#111 center/cover no-repeat url('${placeholderDataUri}');` : 'background:#111';
-      return `<picture class="blur-wrapper" style="${styleBg}">${sources}<img src="${largest.url}" width="${largest.width}" height="${largest.height}" alt="${alt}" loading="lazy" decoding="async" class="blur-up" onload="this.classList.add('loaded')"></picture>`;
+  // Removed inline onload handler for CSP compliance; JS will attach load listeners to add 'loaded' class
+  return `<picture class="blur-wrapper" style="${styleBg}">${sources}<img src="${largest.url}" width="${largest.width}" height="${largest.height}" alt="${alt}" loading="lazy" decoding="async" class="blur-up" data-blur="1"></picture>`;
     } catch(e) {
       console.warn('optImg error for', src, e.message);
       return `<img src="${src}" alt="${alt}">`;

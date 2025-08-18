@@ -18,6 +18,7 @@ collections:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Category", name: "category", widget: "select", options: ["tattoo", "barro", "painting"] }
       - { label: "Image", name: "image", widget: "image" }
+      - { label: "Alt Text", name: "alt", widget: "string", required: false }
       - { label: "Date", name: "date", widget: "datetime" }
       - { label: "Body", name: "body", widget: "markdown", required: false }
 
@@ -41,12 +42,27 @@ collections:
         name: "about"
         fields:
           - { label: "Title", name: "title", widget: "string" }
-          - { label: "Body", name: "body", widget: "markdown" }
+          - { label: "Intro", name: "intro", widget: "markdown", required: false }
+          - { label: "Journey", name: "journey", widget: "markdown", required: false }
+          - label: Offerings
+            name: offerings
+            widget: list
+            summary: "{{fields.label}}"
+            field: { label: Item, name: label, widget: string }
+            required: false
+          - { label: "Philosophy", name: "philosophy", widget: "markdown", required: false }
+          - { label: "Location Note", name: "location_note", widget: "string", required: false }
       - file: "src/contact.njk"
         label: "Contact"
         name: "contact"
         fields:
           - { label: "Title", name: "title", widget: "string" }
+      - file: "src/404.njk"
+        label: "Not Found Page"
+        name: "notfound"
+        fields:
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Body (HTML / Nunjucks allowed)", name: "body", widget: "markdown", required: false }
 
   - name: "settings"
     label: "Site Settings"
@@ -67,3 +83,50 @@ collections:
           - { label: Location, name: location, widget: string }
           - { label: "Site URL", name: "url", widget: "string", required: false }
           - { label: "OG Image", name: "og_image", widget: "image", required: false }
+          # Home hero editable fields
+          - { label: "Hero Heading", name: "hero_heading", widget: "string", required: false }
+          - { label: "Hero Subheading", name: "hero_subheading", widget: "string", required: false }
+          - { label: "Hero Intro Text", name: "hero_intro", widget: "text", required: false }
+          - { label: "Primary CTA Label", name: "hero_primary_cta_label", widget: "string", required: false }
+          - { label: "Primary CTA URL", name: "hero_primary_cta_url", widget: "string", required: false }
+          - { label: "Secondary CTA Label", name: "hero_secondary_cta_label", widget: "string", required: false }
+          - { label: "Secondary CTA URL", name: "hero_secondary_cta_url", widget: "string", required: false }
+          - label: "Hero Images"
+            name: hero_images
+            widget: list
+            summary: "Hero: {{fields.alt | default(fields.image)}}"
+            required: false
+            fields:
+              - { label: Image, name: image, widget: image }
+              - { label: Alt Text, name: alt, widget: string, required: false }
+          - { label: "Latest Artworks Heading", name: "latest_artworks_heading", widget: "string", required: false }
+          # Gallery page configurable text
+          - { label: "Gallery Heading", name: "gallery_heading", widget: "string", required: false }
+          - label: "Gallery Filters"
+            name: gallery_filters
+            widget: list
+            required: false
+            fields:
+              - { label: Label, name: label, widget: string }
+              - { label: Value, name: value, widget: string }
+          - { label: "Gallery Load More Label", name: "gallery_load_more_label", widget: "string", required: false }
+          # Lessons page configurable text
+          - { label: "Lessons Heading", name: "lessons_heading", widget: "string", required: false }
+          - label: "Lesson Steps"
+            name: lessons_steps
+            widget: list
+            required: false
+            field: { label: Step, name: step, widget: string }
+          - { label: "Lessons Help Heading", name: "lessons_help_heading", widget: "string", required: false }
+          - { label: "Lessons Help Text", name: "lessons_help_text", widget: "text", required: false }
+          # Contact page configurable text
+          - { label: "Contact Heading", name: "contact_heading", widget: "string", required: false }
+          - { label: "Contact Intro", name: "contact_intro", widget: "text", required: false }
+          - label: Analytics (Optional)
+            name: analytics
+            widget: object
+            required: false
+            fields:
+              - { label: Provider (e.g. plausible), name: provider, widget: string, required: false }
+              - { label: Script Src URL, name: script_src, widget: string, required: false }
+              - { label: Data Domain (for Plausible), name: data_domain, widget: string, required: false }
