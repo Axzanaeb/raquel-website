@@ -48,7 +48,8 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "geolocation=()"
     Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
-  Content-Security-Policy = "default-src 'self'; script-src 'self' https://identity.netlify.com https://unpkg.com https://plausible.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://*.supabase.co https://plausible.io;"
+  # Added SHA-256 hash for inline gallery script fallback
+  Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-w909RcpHHcV+l18kw3+guFxmAp6DneNzcq2DFv1nq+Q=' https://identity.netlify.com https://unpkg.com https://plausible.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://*.supabase.co https://plausible.io;"
 
 [[headers]]
   for = "/images/*"
