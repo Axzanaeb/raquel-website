@@ -16,7 +16,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <link href="/assets/styles.css" rel="stylesheet">
-  <script src="/assets/js/theme.js" defer></script>
+  {# Removed dark mode script to force consistent white background #}
   <script type="application/ld+json">{
     "@context":"https://schema.org",
     "@type":"Organization",
@@ -51,7 +51,8 @@
   <link rel="preload" as="image" href="{{ site.hero_images[0].image }}"/>
   {% endif %}
 </head>
-<body class="font-body text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-900"> 
+<body class="font-body text-gray-900 bg-white"> 
+  <a href="#main" class="skip-link absolute top-[-40px] left-2 bg-black text-white px-3 py-2 focus:top-2 focus:outline-none">Skip to content</a>
   <header class="border-b border-black/10 dark:border-white/10">
     <nav class="container flex items-center justify-between h-16">
       <a href="/" class="font-extrabold tracking-tight text-lg">{{ site.title }}</a>
@@ -63,12 +64,12 @@
         <li><a href="/admin/" class="hover:underline">CMS</a></li>
   <li><a href="/admin/registrations" class="hover:underline text-xs opacity-70">Reg*</a></li>
   <li><a href="/admin-function-logs" class="hover:underline text-xs opacity-70">Logs*</a></li>
-        <li><button id="themeToggle" class="text-xs border px-2 py-1 rounded">🌙</button></li>
+  {# Theme toggle removed for consistent white background #}
       </ul>
     </nav>
   </header>
 
-  <main class="min-h-[70vh]">
+  <main id="main" class="min-h-[70vh]">
     {{ content | safe }}
   </main>
 
@@ -82,6 +83,6 @@
       </div>
     </div>
   </footer>
-  <script src="/assets/js/theme-toggle.js" defer></script>
+  {# Theme toggle script removed #}
 </body>
 </html>

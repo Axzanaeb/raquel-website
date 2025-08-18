@@ -1,0 +1,13 @@
+{% macro artworkCard(post) %}
+<article class="card">
+  <a href="{{ post.url }}">
+    {% if post.data.image %}
+      <img src="{{ post.data.image }}" alt="{{ post.data.alt or post.data.title }}">
+    {% endif %}
+    <div class="p-4">
+      <span class="badge">{{ post.data.category }}</span>
+      <h3 class="mt-2 font-semibold">{{ post.data.title }}</h3>
+    </div>
+  </a>
+</article>
+{% endmacro %}

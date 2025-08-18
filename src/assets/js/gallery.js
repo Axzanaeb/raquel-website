@@ -6,6 +6,8 @@
   const grid = document.getElementById('grid');
   if(!grid) return;
   const gridItems = Array.from(grid.querySelectorAll('figure'));
+  // Ensure all start hidden so JS controls visibility (template no longer includes hidden class)
+  gridItems.forEach(el => el.classList.add('hidden'));
   const loadBtn = document.getElementById('loadMore');
   const filterLinks = document.querySelectorAll('[data-filter]');
 

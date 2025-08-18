@@ -2,60 +2,15 @@
 layout: base
 title: Home
 ---
-<section class="container py-16 md:py-24">
-  <div class="grid md:grid-cols-2 gap-12 items-center">
-    <div>
-      <h1 class="font-display text-4xl md:text-6xl font-extrabold leading-tight">{{ site.hero_heading or site.title }}
-        {% if site.hero_subheading %}<span class="block text-xl md:text-2xl font-semibold mt-3">{{ site.hero_subheading }}</span>{% endif %}
-      </h1>
-      {% if site.hero_intro %}<p class="mt-6 text-lg">{{ site.hero_intro }}</p>{% endif %}
-      <div class="mt-8 flex gap-3 flex-wrap">
-        {% if site.hero_primary_cta_label and site.hero_primary_cta_url %}
-          <a class="btn" href="{{ site.hero_primary_cta_url }}">{{ site.hero_primary_cta_label }}</a>
-        {% endif %}
-        {% if site.hero_secondary_cta_label and site.hero_secondary_cta_url %}
-          <a class="btn" href="{{ site.hero_secondary_cta_url }}">{{ site.hero_secondary_cta_label }}</a>
-        {% endif %}
-      </div>
-    </div>
-    {% set heroes = site.hero_images or [] %}
-    <!-- DEBUG HERO COUNT: {{ heroes | length }} -->
-    <!-- DEBUG HERO LIST: {% for h in heroes %}{{ h.image or h }} {% endfor %} -->
-    {% if heroes.length %}
-      <div class="grid gap-3" style="grid-template-columns: repeat({{ heroes | length }}, minmax(0,1fr));">
-        {% for img in heroes %}
-          {% set src = img.image or img %}
-          {% if src %}
-            <figure class="card overflow-hidden">
-              {% if src and src.startsWith('/images/uploads/') %}
-                {% set alt = img.alt or ('Hero image ' + loop.index) %}
-                {% optImg src, alt %}
-              {% else %}
-                <img class="aspect-square object-cover w-full h-full" src="{{ src }}" alt="{{ (img.alt or ('Hero image ' + loop.index)) | escape }}" loading="{{ 'eager' if loop.first else 'lazy' }}" decoding="async" />
-              {% endif %}
-            </figure>
-          {% endif %}
-        {% endfor %}
-      </div>
-    {% endif %}
-  </div>
-</section>
+{% from "layouts/partials/hero.njk" import hero %}
+{% from "layouts/partials/cards.njk" import artworkCard %}
+{{ hero(site) }}
 
 <section class="container py-12">
   <h2 class="text-2xl font-bold mb-6">{{ site.latest_artworks_heading or 'Latest artworks' }}</h2>
   <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
     {% for post in collections.artworks | slice(0,6) %}
-      <article class="card">
-        <a href="{{ post.url }}">
-          {% if post.data.image %}
-            <img src="{{ post.data.image }}" alt="{{ post.data.title }}">
-          {% endif %}
-          <div class="p-4">
-            <span class="badge">{{ post.data.category }}</span>
-            <h3 class="mt-2 font-semibold">{{ post.data.title }}</h3>
-          </div>
-        </a>
-      </article>
+      {{ artworkCard(post) }}
     {% endfor %}
   </div>
 </section>
